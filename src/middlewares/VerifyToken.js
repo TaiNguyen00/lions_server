@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken"
 
 
 // Hàm này sẽ kiểm tra token từ phía client gửi lại
-const VerifyToken = (req, res, next ) => {
+const VerifyToken = (req, res, next) => {
   const authHeader = req.headers.token
 
   if (authHeader) {
@@ -23,5 +23,5 @@ const VerifyToken = (req, res, next ) => {
 
 
 
-module.exports = 
-{ VerifyToken};
+module.exports =
+  { VerifyToken };

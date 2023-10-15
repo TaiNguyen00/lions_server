@@ -20,7 +20,7 @@ app.use(cors())
 app.use(express.json())
 app.use(morgan())
 
-app.use("/api/users", userRouter)
+app.use("/api/v1", userRouter)
 
 
 app.listen(PORT, () => {
