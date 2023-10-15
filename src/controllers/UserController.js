@@ -51,8 +51,8 @@ export const loginUser = async (req, res, next) => {
       id: user,
       isAdmin: user.isAdmin
     })
-    console.log(access_token);
-    return res.status(200).json(access_token, refresh_token);
+    console.log(access_token, refresh_token);
+    return res.status(200).json(access_token);
   } catch (err) {
     res.status(500).json(err)
   }
