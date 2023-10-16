@@ -14,18 +14,11 @@ const PackageSchema = new mongoose.Schema({
         type: Number,
         required: true, // bắt buộc
     },
-    id_opption: {
+    id_option: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Opption'
     },
-    creact_at: {
-        type: Date,
-        default: Date.now
-    },
-    update_at: {
-        type: Date,
-        default: Date.now
-    },
+
 }, { timestamps: true })
 
 module.exports = mongoose.model("Package", PackageSchema)
