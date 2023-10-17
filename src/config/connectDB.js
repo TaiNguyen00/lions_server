@@ -1,20 +1,27 @@
 import mongoose from "mongoose"
 
 
-const connectionParams={
+const connectionParams = {
   useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true 
+  useUnifiedTopology: true
 }
 
-const connectToDB = async() => {
-  mongoose.connect(process.env.DB_URL,connectionParams)
-  .then( () => {
-      console.log('Connected to the database ')
-  })
-  .catch( (err) => {
-      console.error(`Error connecting to the database. n${err}`);
-  })
+const connectToDB = async () => {
+ 
+  console.log('NODE_ENV:', process.env.NODE_ENV);
+  console.log('DB_URL_MAIN:', process.env.DB_URL_MAIN);
+  console.log('DB_URL_DEV:', process.env.DB_URL_DEV);
+
+
+ if (process.env.NODE_ENV === 'production') {
+  console.log("in case production")
+    mongoose.connect(process.env.DB_URL_MAIN, { useNewUrlParser: true, useUnifiedTopology: true });
+  } else  {
+    console.log("in case dev")
+    mongoose.connect(process.env.DB_URL_DEV, { useNewUrlParser: true, useUnifiedTopology: true });
+  }
+
+
 }
 
 mongoose.connection.on("disconnected", () => {
@@ -29,3 +36,4 @@ mongoose.connection.on("connected", () => {
 
 
 export default connectToDB
+

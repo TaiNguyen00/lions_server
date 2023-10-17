@@ -1,10 +1,21 @@
 import mongoose from "mongoose"
 
 const UserSchema = new mongoose.Schema({
-  username: {
+  first_name: {
     type: String,
     required: true, // bắt buộc
-    unique: true // đảm bảo nó là email duy nhất...
+
+  },
+  id_package: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Package'
+  },
+  last_name: {
+    type: String,
+    required: true, // bắt buộc
+  },
+  middle_name: {
+    type: String,
   },
   email: {
     type: String,
@@ -13,12 +24,30 @@ const UserSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true
+    required: true,
+  },
+  avatar: {
+    type: String,
+  },
+  phone_number: {
+    type: Number,
+
+  },
+  token_o2h: {
+    type: String,
+  },
+  role: {
+    type: Number,
+    default: 0
+  },
+  bill: {
+    type: String,
+    default: false
   },
   isAdmin: {
     type: Boolean,
-    default: false
+    default: false,
   },
-}, {timestamps: true})
+}, { timestamps: true })
 
 module.exports = mongoose.model("User", UserSchema)

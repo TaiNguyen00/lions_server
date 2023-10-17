@@ -1,14 +1,16 @@
 import express from "express"
-import {testAPI } from "../controllers/UserController"
-
-import { VerifyToken } from "../middlewares/VerifyToken"
+import { deleteUser, editUser, getAllUser } from "../controllers/UserController"
+import { VerifyUser } from "../middlewares/VerifyToken";
 
 const router = express.Router();
 
 
-
 // test API
-router.get("/test", VerifyToken,testAPI)
+router.get("/", VerifyUser ,getAllUser);
+router.put('/edit-user/:id', editUser)
+router.delete('/delete/:id', deleteUser)
+
+
 
 
 module.exports = router 
