@@ -16,7 +16,6 @@ const UserSchema = new mongoose.Schema({
   },
   middle_name: {
     type: String,
-    required: true, // bắt buộc
   },
   email: {
     type: String,
@@ -38,8 +37,8 @@ const UserSchema = new mongoose.Schema({
     type: String,
   },
   role: {
-    type: Boolean,
-    default: false
+    type: Number,
+    default: 0
   },
   bill: {
     type: String,

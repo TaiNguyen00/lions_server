@@ -9,15 +9,7 @@ const OpptionSchema = new mongoose.Schema({
     title_opption: {
         type: String,
         required: true, // bắt buộc
-    },
-    creact_at: {
-        type: Date,
-        default: Date.now
-    },
-    update_at: {
-        type: Date,
-        default: Date.now
-    },
+    }
 }, { timestamps: true })
 
-module.exports = mongoose.model("Opption", OpptionSchema)
+module.exports = mongoose.model("Option", OpptionSchema)

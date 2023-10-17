@@ -16,15 +16,7 @@ const PackageSchema = new mongoose.Schema({
     },
     id_opption: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Opption'
-    },
-    creact_at: {
-        type: Date,
-        default: Date.now
-    },
-    update_at: {
-        type: Date,
-        default: Date.now
+        ref: 'Option'
     },
 }, { timestamps: true })
 

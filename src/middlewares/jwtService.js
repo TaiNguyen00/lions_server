@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
 const genneralAccessToken = async (payload) => {
-    console.log(payload);
+    console.log(payload)
     const access_token = jwt.sign({
         payload
     }, process.env.ACCESS_TOKEN, { expiresIn: '1h' })
