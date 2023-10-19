@@ -11,6 +11,9 @@ import connectToDB from "./src/config/connectDB";
 // api
 import userRouter from "./src/routes/UserRouter"
 import authRouter from "./src/routes/AuthRouter"
+import packageRouter from "./src/routes/PackageRouter"
+import roomRouter from "./src/routes/RoomRouter"
+import optionRouter from "./src/routes/OptionRouter"
 
 
 
@@ -28,6 +31,9 @@ app.use(morgan())
 
 app.use("/api/v1/user", userRouter)
 app.use("/api/v1/auth", authRouter)
+app.use("/api/v1/package", packageRouter)
+app.use("/api/v1/room", roomRouter)
+app.use("/api/v1/option", optionRouter)
 
 
 app.listen(PORT, () => {

@@ -4,7 +4,7 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { genneralAccessToken } from '../middlewares/jwtService.js'
 
-export const registerUser = async (req, res) => {
+export const registerUser = async (req, res, next) => {
   try {
     const newUser = new User(req.body)
     newUser.password = bcrypt.hashSync(req.body.password, 10)
@@ -25,7 +25,7 @@ export const loginUser = async (req, res) => {
   try {
     // const { email, password } = req.body
 
-    const user = await User.findOne({email: req.body.email})
+    const user = await User.findOne({ email: req.body.email })
 
 
     if (!user) {
@@ -40,15 +40,15 @@ export const loginUser = async (req, res) => {
       isAdmin: user.isAdmin,
       role: user.role
     }, process.env.JWT_TOKEN_SECRET)
-    const {password, ...otherDetails} = user._doc
+    const { password, ...otherDetails } = user._doc
     return res
-    .cookie("access_token", access_token, {
-      httpOnly: true,
-    })
-    .status(200)
-    .json({
-      user: otherDetails
-    });
+      .cookie("access_token", access_token, {
+        httpOnly: true,
+      })
+      .status(200)
+      .json({
+        user: otherDetails
+      });
   } catch (err) {
     res.status(500).json(err)
   }

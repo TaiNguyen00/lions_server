@@ -6,7 +6,7 @@ const RoomSchema = new mongoose.Schema({
         required: true, // bắt buộc
 
     },
-    room_stutus: {
+    room_status: {
         type: String,
         required: true, // bắt buộc
     }
