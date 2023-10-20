@@ -1,4 +1,5 @@
 import Room from '../models/Room'
+import OptionRoom from '../models/OptionRoom'
 export const getAllRoom = async (req, res, next) => {
     try {
         const users = await Room.find()
@@ -12,11 +13,27 @@ export const getAllRoom = async (req, res, next) => {
 }
 export const addRoom = async (req, res, next) => {
     try {
+        const roomCount = await Room.countDocuments();
+        const optionRoom = await OptionRoom.findById(req.body.optionRoomId);
+
+        if (roomCount >= optionRoom.quantity) {
+            return res.status(400).json(optionRoom.quantity);
+        }
+
         const newRoom = new Room(req.body)
         const saveRoom = await newRoom.save()
-        res.status(200).json(saveRoom)
+        const updateOptionRoom = await OptionRoom.findByIdAndUpdate(newRoom.optionRoomId, {
+            $addToSet: {
+                roomId: newRoom._id
+            }
+        })
+
+        if (!updateOptionRoom) {
+            return res.status(404).json("update option in option not success")
+        }
+        return res.status(200).json(saveRoom)
     } catch (err) {
-        res.status(500).json(err)
+        return res.status(500).json(err)
     }
 }
 export const editRoom = async (req, res, next) => {

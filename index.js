@@ -14,6 +14,7 @@ import authRouter from "./src/routes/AuthRouter"
 import packageRouter from "./src/routes/PackageRouter"
 import roomRouter from "./src/routes/RoomRouter"
 import optionRouter from "./src/routes/OptionRouter"
+import OptionRoomRouter from "./src/routes/RoomOptionRouter"
 
 
 
@@ -34,6 +35,7 @@ app.use("/api/v1/auth", authRouter)
 app.use("/api/v1/package", packageRouter)
 app.use("/api/v1/room", roomRouter)
 app.use("/api/v1/option", optionRouter)
+app.use("/api/v1/optionRoom", OptionRoomRouter)
 
 
 app.listen(PORT, () => {

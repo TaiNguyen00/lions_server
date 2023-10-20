@@ -9,7 +9,20 @@ const OpptionSchema = new mongoose.Schema({
     title_opption: {
         type: String,
         required: true, // bắt buộc
-    }
+    },
+    packageId: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Package"
+        }
+    ],
+    id_optionRoom: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'optionRoom'
+        }
+    ]
+
 }, { timestamps: true })
 
 module.exports = mongoose.model("Option", OpptionSchema)

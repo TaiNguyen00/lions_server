@@ -9,7 +9,13 @@ const RoomSchema = new mongoose.Schema({
     room_status: {
         type: String,
         required: true, // bắt buộc
-    }
+    },
+    optionRoomId: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'optionRoom'
+        }
+    ]
 }, { timestamps: true })
 
 module.exports = mongoose.model("Room", RoomSchema)
