@@ -21,6 +21,12 @@ const OpptionSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'optionRoom'
         }
+    ],
+    id_optionStaff: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'optionStaff'
+        }
     ]
 
 }, { timestamps: true })

@@ -3,7 +3,7 @@ import { addOptionRoom, editOptionRoom, getAllOptionRoom } from "../controllers/
 
 const OptionRoomRouter = Router()
 
-OptionRoomRouter.get('/OptionRoom', getAllOptionRoom)
+OptionRoomRouter.get('/', getAllOptionRoom)
 OptionRoomRouter.post('/OptionRoom-add', addOptionRoom)
 OptionRoomRouter.put('/OptionRoom-edit/:id', editOptionRoom)
 

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const OptionRoomSchema = new mongoose.Schema({
-    quantity: {
+    quantity_room: {
         type: Number,
         require: true
     },
@@ -15,11 +15,6 @@ const OptionRoomSchema = new mongoose.Schema({
             ref: 'Option'
         }
     ],
-    roomId: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Room'
-        }
-    ]
+
 })
 module.exports = mongoose.model('optionRoom', OptionRoomSchema)

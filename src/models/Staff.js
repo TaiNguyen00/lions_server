@@ -1,6 +1,6 @@
 import mongoose from "mongoose"
 
-const StaffYourProductSchema = new mongoose.Schema({
+const StaffSchema = new mongoose.Schema({
     id_room: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Room'
@@ -10,6 +10,10 @@ const StaffYourProductSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'YourProduct'
     },
+    id_optionStaff: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'optionStaff'
+    },
     manage_reservations: {
         type: String,
         required: true, // bắt buộc
@@ -18,14 +22,7 @@ const StaffYourProductSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    creact_at: {
-        type: Date,
-        default: Date.now
-    },
-    update_at: {
-        type: Date,
-        default: Date.now
-    },
+
 }, { timestamps: true })
 
-module.exports = mongoose.model("StaffYourProduct", StaffYourProductSchema)
+module.exports = mongoose.model("Staff", StaffSchema)

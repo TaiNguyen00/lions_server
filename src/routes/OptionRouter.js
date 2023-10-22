@@ -4,7 +4,7 @@ import { addOption, deleteOption, editOption, getAllOption } from "../controller
 
 const optionRouter = Router()
 
-optionRouter.get('/option', getAllOption)
+optionRouter.get('/', getAllOption)
 optionRouter.post('/add-option', addOption)
 optionRouter.delete('/delete-option/:id', deleteOption)
 optionRouter.put('/edit-option/:id', editOption)

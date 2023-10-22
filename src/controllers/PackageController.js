@@ -1,7 +1,7 @@
 import Package from '../models/Package'
 export const getAllPackage = async (req, res, next) => {
     try {
-        const user = await Package.find()
+        const user = await Package.find().populate("id_opption")
         return res.status(200).json({
             errcode: 0,
             user

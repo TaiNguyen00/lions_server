@@ -10,10 +10,22 @@ const RoomSchema = new mongoose.Schema({
         type: String,
         required: true, // bắt buộc
     },
-    optionRoomId: [
+    optionRoomId:
+    {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'optionRoom'
+    }
+    ,
+    floor_id: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'optionRoom'
+            ref: 'floor'
+        }
+    ],
+    StaffId: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Staff'
         }
     ]
 }, { timestamps: true })

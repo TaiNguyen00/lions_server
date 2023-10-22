@@ -31,7 +31,7 @@ export const loginUser = async (req, res) => {
     if (!user) {
       return res.status(401).json('Sai email hoặc mật khẩu')
     }
-    var isPasswordValid = bcrypt.compareSync(req.body.password, user.password);
+    const isPasswordValid = bcrypt.compareSync(req.body.password, user.password);
     if (!isPasswordValid) {
       return res.status(401).json('Sai email hoặc mật khẩu')
     }
