@@ -16,8 +16,6 @@ const UserSchema = new mongoose.Schema({
   },
   middle_name: {
     type: String,
-    required: true, // bắt buộc
-
   },
   email: {
     type: String,

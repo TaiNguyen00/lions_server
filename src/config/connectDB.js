@@ -7,12 +7,6 @@ const connectionParams = {
 }
 
 const connectToDB = async () => {
-
-  console.log('NODE_ENV:', process.env.NODE_ENV);
-  console.log('DB_URL_MAIN:', process.env.DB_URL_MAIN);
-  console.log('DB_URL_DEV:', process.env.DB_URL_DEV);
-
-
   if (process.env.NODE_ENV === 'production') {
     console.log("in case production")
     mongoose.connect(process.env.DB_URL_MAIN, { useNewUrlParser: true, useUnifiedTopology: true });
