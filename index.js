@@ -8,9 +8,7 @@ import cookieParser from "cookie-parser";
 import connectToDB from "./src/config/connectDB";
 
 
-// api
-import userRouter from "./src/routes/UserRouter"
-import authRouter from "./src/routes/AuthRouter"
+import router from './src/routes/configRouter'
 
 
 
@@ -26,8 +24,7 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(morgan())
 
-app.use("/api/v1/user", userRouter)
-app.use("/api/v1/auth", authRouter)
+app.use('/api/v1', router)
 
 
 app.listen(PORT, () => {
