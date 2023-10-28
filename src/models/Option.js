@@ -1,7 +1,7 @@
 import mongoose from "mongoose"
 
 const OpptionSchema = new mongoose.Schema({
-    disription: {
+    description: {
         type: String,
         required: true, // bắt buộc
 

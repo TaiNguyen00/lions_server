@@ -12,8 +12,13 @@ import optionStaffRouter from "./StaffOptionRouter"
 import staffRouter from "./StaffRouter"
 const router = Router()
 
+import { VerifyAdmin } from "../middlewares/VerifyToken";
+
+// admin
+router.use("/package/", VerifyAdmin,packageRouter)
+
+
 router.use("user", userRouter)
-router.use("/package/", packageRouter)
 router.use("/option/", optionRouter)
 router.use("/optionRoom/", OptionRoomRouter)
 router.use("/optionStaff/", optionStaffRouter)

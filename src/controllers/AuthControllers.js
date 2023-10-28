@@ -24,7 +24,7 @@ export const registerUser = async (req, res, next) => {
 export const loginUser = async (req, res) => {
   try {
     
-    const user = await User.findOne({ email: req.body.email })
+    const user = await User.findOne({ email: req.body.email }).populate("id_package")
     if (!user) {
       return res.status(401).json('Sai email hoặc mật khẩu')
     }

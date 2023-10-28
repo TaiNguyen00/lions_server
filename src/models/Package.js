@@ -14,7 +14,7 @@ const PackageSchema = new mongoose.Schema({
         type: Number,
         required: true, // bắt buộc
     },
-    id_opption: [
+    id_option: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Option'

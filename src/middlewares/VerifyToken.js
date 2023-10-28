@@ -22,7 +22,6 @@ import { createError } from "../utils/error";
 export const VerifyToken = (req, res, next) => {
   const token = req.cookies.access_token;
   console.log("check procees", process.env.JWT_TOKEN_SECRET)
-  console.log("check token", token)
   if (!token) return res.status(400).json({ message: "Bạn chưa xác thực" });
   jwt.verify(token, process.env.JWT_TOKEN_SECRET, (err, user) => {
     if (err) return next(createError(403, "Token không hợp lệ"));
@@ -34,6 +33,7 @@ export const VerifyToken = (req, res, next) => {
 
 export const VerifyUser = (req, res, next) => {
   VerifyToken(req, res, (err) => {
+    if (err) return res.status(400).json("Something went wrong")
     if (req.user.role === 0 || req.user.role === 1) {
       next()
     } else {
@@ -48,7 +48,7 @@ export const VerifyAdmin = (req, res, next) => {
    if (req.user.isAdmin) {
      next();
    } else {
-     return res.status(400).json("Bạn k có quyền truy cập vào chức năng này");
+     return res.status(400).json("Bạn k có quyền truy cập vào chức năng này (case ADMIN)");
    }
  });
 };

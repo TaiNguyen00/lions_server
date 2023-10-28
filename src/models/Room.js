@@ -22,6 +22,8 @@ const RoomSchema = new mongoose.Schema({
             ref: 'floor'
         }
     ],
+
+    // bỏ staffID
     StaffId: [
         {
             type: mongoose.Schema.Types.ObjectId,

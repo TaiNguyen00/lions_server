@@ -14,7 +14,7 @@ export const addOption = async (req, res, next) => {
         const saveOption = await newOption.save()
         const updatePackage = await Package.findByIdAndUpdate(newOption.packageId, {
             $addToSet: {
-                id_opption: newOption._id
+                id_option: newOption._id
             }
         })
         if (!updatePackage) {

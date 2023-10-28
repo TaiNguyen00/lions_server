@@ -1,11 +1,9 @@
 import Package from '../models/Package'
+import User from "../models/User"
 export const getAllPackage = async (req, res, next) => {
     try {
-        const user = await Package.find().populate("id_opption")
-        return res.status(200).json({
-            errcode: 0,
-            user
-        })
+        const packageAll = await Package.find().populate('id_option')
+        return res.status(200).json(packageAll)
     } catch (err) {
         return res.status(404).json(err)
     }
@@ -27,3 +25,13 @@ export const editPackage = async (req, res, next) => {
         res.status(404).json(err)
     }
 }
+
+
+// export const getPackageByUser = async (req, res) => {
+//     try {
+//         const getPackage = await Package.fin
+//     } catch (err) {
+//         return res.status(500).json(err)
+//     }
+// }
+
