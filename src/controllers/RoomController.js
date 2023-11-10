@@ -19,7 +19,7 @@ export const addRoom = async (req, res, next) => {
         const optionRoom = await OptionRoom.findById(req.body.optionRoomId);
 
         if (roomCount >= optionRoom.quantity_room) {
-            return res.status(400).json('Ban khong the taoj them phong so phong dat gioi han');
+            return res.status(400).json('Bạn không thể tạo thêm phòng, đã đạt giới hạn');
         }
 
         const newRoom = new Room(req.body)

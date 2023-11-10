@@ -1,5 +1,7 @@
 import Option from "../models/Option";
 import Package from "../models/Package";
+
+
 export const getAllOption = async (req, res, next) => {
   try {
     const options = await Option.find().populate("packageId");
@@ -25,6 +27,7 @@ export const addOption = async (req, res, next) => {
     res.status(404).json(err);
   }
 };
+
 export const editOption = async (req, res, next) => {
   try {
     const updateOption = await Option.findByIdAndUpdate(
@@ -46,10 +49,4 @@ export const deleteOption = async (req, res, next) => {
   }
 };
 
-export const testFunc = (req, res) => {
-  try {
-    console.log(req)
-  } catch (err) {
-    res.status(500).json(err);
-  }
-};
+

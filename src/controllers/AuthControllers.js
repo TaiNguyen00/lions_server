@@ -2,7 +2,6 @@
 import User from "../models/User"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
-import { genneralAccessToken } from '../middlewares/jwtService.js'
 
 export const registerUser = async (req, res, next) => {
   try {
@@ -24,7 +23,8 @@ export const registerUser = async (req, res, next) => {
 export const loginUser = async (req, res) => {
   try {
     
-    const user = await User.findOne({ email: req.body.email }).populate("id_package")
+    const user = await User.findOne({ email: req.body.email }).populate('id_package')
+    console.log(user)
     if (!user) {
       return res.status(401).json('Sai email hoặc mật khẩu')
     }

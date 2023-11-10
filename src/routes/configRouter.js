@@ -10,16 +10,17 @@ import YourProductRouter from "./YourProductRouter"
 import floorRouter from "./FoorRouter"
 import optionStaffRouter from "./StaffOptionRouter"
 import staffRouter from "./StaffRouter"
+import paymentRouter from "./PaymentRouter"
 const router = Router()
 
 import { VerifyAdmin } from "../middlewares/VerifyToken";
 
 // admin
-router.use("/package/", VerifyAdmin,packageRouter)
+router.use("/package/",packageRouter)
 
 
-router.use("user", userRouter)
-router.use("/option/", optionRouter)
+router.use("/user", userRouter)
+router.use("/option", optionRouter)
 router.use("/optionRoom/", OptionRoomRouter)
 router.use("/optionStaff/", optionStaffRouter)
 router.use("/yourProduct/", YourProductRouter)
@@ -27,5 +28,6 @@ router.use("/staff/", staffRouter)
 router.use("/auth", authRouter)
 router.use("/room/", roomRouter)
 router.use("/floor/", floorRouter)
+router.use("/payment", paymentRouter)
 
 module.exports = router

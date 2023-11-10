@@ -27,11 +27,4 @@ export const editPackage = async (req, res, next) => {
 }
 
 
-// export const getPackageByUser = async (req, res) => {
-//     try {
-//         const getPackage = await Package.fin
-//     } catch (err) {
-//         return res.status(500).json(err)
-//     }
-// }
 
