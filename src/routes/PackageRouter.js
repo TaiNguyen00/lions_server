@@ -3,7 +3,7 @@ import { addPackage, editPackage, getAllPackage } from "../controllers/PackageCo
 
 const packageRouter = Router()
 
-packageRouter.get('/', getAllPackage)
+packageRouter.get('/getAll', getAllPackage)
 packageRouter.post('/package-add', addPackage)
 packageRouter.put('/package-edit/:id', editPackage)
 

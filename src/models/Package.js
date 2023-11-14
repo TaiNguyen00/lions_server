@@ -10,6 +10,10 @@ const PackageSchema = new mongoose.Schema({
         type: String,
         required: true, // bắt buộc
     },
+    old_price: {
+        type: Number,
+        // required: true, // bắt buộc
+    },
     price: {
         type: Number,
         required: true, // bắt buộc
@@ -18,8 +22,10 @@ const PackageSchema = new mongoose.Schema({
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Option'
+
         }
     ],
+
 }, { timestamps: true })
 
 module.exports = mongoose.model("Package", PackageSchema)

@@ -1,15 +1,13 @@
 import mongoose from "mongoose"
 
 const OpptionSchema = new mongoose.Schema({
-    description: {
-        type: String,
-        required: true, // bắt buộc
 
-    },
-    title_opption: {
-        type: String,
-        required: true, // bắt buộc
-    },
+    option_additional: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "optionAdditional"
+        }
+    ],
     packageId: [
         {
             type: mongoose.Schema.Types.ObjectId,

@@ -4,7 +4,7 @@ import Package from "../models/Package";
 
 export const getAllOption = async (req, res, next) => {
   try {
-    const options = await Option.find().populate("packageId");
+    const options = await Option.find().populate("packageId option_additional id_optionRoom id_optionStaff");
     return res.status(200).json(options);
   } catch (err) {
     res.status(404).json(err);

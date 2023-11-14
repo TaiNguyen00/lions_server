@@ -9,6 +9,10 @@ const OptionRoomSchema = new mongoose.Schema({
         type: String,
         require: true
     },
+    label_room: {
+        type: String,
+        require: true
+    },
     optionId: [
         {
             type: mongoose.Schema.Types.ObjectId,
