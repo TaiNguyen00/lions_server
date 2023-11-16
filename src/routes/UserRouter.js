@@ -6,9 +6,10 @@ const router = express.Router();
 
 
 // test API
-router.get("/", VerifyAdmin ,getAllUser);
+// router.get("/", VerifyAdmin ,getAllUser);
+router.get("/", getAllUser);
 router.put('/edit-user/:id', VerifyUser, editUser)
-router.delete('/delete/:id', VerifyUser,deleteUser)
+router.delete('/delete/:id', VerifyUser, deleteUser)
 
 router.put('/update-package/:id', VerifyUser, UpdateUserByPackage)
 

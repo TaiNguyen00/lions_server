@@ -4,7 +4,7 @@ import Staff from '../models/Staff'
 import floor from '../models/Foor'
 export const getAllRoom = async (req, res, next) => {
     try {
-        const rooms = await Room.find()
+        const rooms = await Room.find().populate("floor_id");
         return res.status(200).json({
             errcode: 0,
             rooms: rooms
