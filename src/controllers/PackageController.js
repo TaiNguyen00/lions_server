@@ -2,20 +2,30 @@ import Package from '../models/Package'
 import User from "../models/User"
 export const getAllPackage = async (req, res, next) => {
     try {
-        const packageAll = await Package.find().populate({
-            path: 'id_option',
-            populate: [
-                { path: 'id_optionRoom' },
-                { path: 'id_optionStaff' },
-                { path: 'option_additional' },
-            ],
-
-        })
+        const packageAll = await Package.find().populate('id_OptionRoom',
+            'id_OptionStaff',
+            'id_optionAdditional')
         return res.status(200).json(packageAll)
     } catch (err) {
         return res.status(404).json(err)
     }
 }
+export const getPackageById = async (req, res, next) => {
+    try {
+        const packageById = await Package.findById(req.params.id).populate(
+            'id_OptionRoom',
+            'id_OptionStaff',
+            'id_optionAdditional');
+
+        if (!packageById) {
+            return res.status(404).json({ message: 'Package not found' });
+        }
+
+        return res.status(200).json(packageById);
+    } catch (err) {
+        return res.status(404).json(err);
+    }
+};
 export const addPackage = async (req, res, next) => {
     try {
         const newPackage = new Package(req.body)

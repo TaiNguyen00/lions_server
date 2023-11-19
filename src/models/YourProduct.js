@@ -30,7 +30,12 @@ const YourProductSchema = new mongoose.Schema({
             ref: 'TypeProduct'
         }
     ],
-
+    accountManagementID: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'accountManagement'
+        }
+    ],
 }, { timestamps: true })
 
 module.exports = mongoose.model("YourProduct", YourProductSchema)

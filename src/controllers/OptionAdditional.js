@@ -1,8 +1,8 @@
 import optionAdditional from '../models/OptionAdditional'
-import Option from '../models/Option'
+import Package from '../models/Package'
 export const getAllOptionAdditional = async (req, res, next) => {
     try {
-        const optionAdd = await optionAdditional.find().populate("optionId")
+        const optionAdd = await optionAdditional.find()
         return res.status(200).json({
             errcode: 0,
             optionAdd
@@ -15,9 +15,9 @@ export const addOptionAdditional = async (req, res, next) => {
     try {
         const newOptionAdditional = new optionAdditional(req.body)
         const saveOptionAdditonal = await newOptionAdditional.save()
-        const updateOption = await Option.findByIdAndUpdate(newOptionAdditional.optionId, {
+        const updateOption = await Package.findByIdAndUpdate(newOptionAdditional.packageID, {
             $addToSet: {
-                option_additional: newOptionAdditional._id
+                id_optionAdditional: newOptionAdditional._id
             }
         })
         if (!updateOption) {

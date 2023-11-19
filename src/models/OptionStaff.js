@@ -13,10 +13,10 @@ const OptionStaffSchema = new mongoose.Schema({
         type: String,
         require: true
     },
-    optionId: [
+    packageID: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Option'
+            ref: 'Package'
         }
     ],
 

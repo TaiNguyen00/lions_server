@@ -18,13 +18,27 @@ const PackageSchema = new mongoose.Schema({
         type: Number,
         required: true, // bắt buộc
     },
-    id_option: [
+    id_optionAdditional: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Option'
+            ref: 'optionAdditional'
+
+        }
+    ], id_OptionStaff: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'optionAdditional'
 
         }
     ],
+    id_OptionRoom: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'optionAdditional'
+
+        }
+    ],
+
 
 }, { timestamps: true })
 

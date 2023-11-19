@@ -1,12 +1,12 @@
 import mongoose from "mongoose"
 
 const RoomSchema = new mongoose.Schema({
-    room_number: {
+    roomcode: {
         type: Number,
         required: true, // bắt buộc
 
     },
-    room_status: {
+    condition: {
         type: String,
         required: true, // bắt buộc
     },
@@ -22,14 +22,18 @@ const RoomSchema = new mongoose.Schema({
             ref: 'floor'
         }
     ],
-
-    // bỏ staffID
-    StaffId: [
+    catelory_room: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Staff'
+            ref: 'CateloryRoom'
         }
-    ]
+    ],
+    client_id: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Client'
+        }
+    ],
 }, { timestamps: true })
 
 module.exports = mongoose.model("Room", RoomSchema)
