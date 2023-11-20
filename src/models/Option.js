@@ -16,12 +16,14 @@ const OpptionSchema = new mongoose.Schema({
             ref: "Package"
         }
     ],
+    // phòng
     id_optionRoom: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'optionRoom'
         }
     ],
+    // nhân viên
     id_optionStaff: [
         {
             type: mongoose.Schema.Types.ObjectId,

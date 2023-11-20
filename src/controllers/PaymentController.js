@@ -1,8 +1,10 @@
 import Bill from "../models/Bill";
 import User from "../models/User";
+
+
 export const getPayment = async (req, res) => {
   try {
-    const getBills = await Bill.find().populate("id_package id_user");
+    const getBills = await Bill.find().populate("id_package id_user");  
     if (!getBills) {
       return res.status(401).json("Can't get buy from server");
     }
