@@ -10,12 +10,23 @@ const UserSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Package'
   },
+  accountManagementID: 
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'accountManagement'
+    }
+  ,
   last_name: {
     type: String,
     required: true, // bắt buộc
   },
   middle_name: {
     type: String,
+  },
+  userName: {
+    type: String,
+    required: true,
+    unique: true
   },
   email: {
     type: String,

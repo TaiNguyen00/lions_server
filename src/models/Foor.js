@@ -5,10 +5,10 @@ const FoorSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'YourProduct'
     },
-    id_room: {
+    id_room: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Room'
-    },
+    }],
     title_foor: {
         type: String,
         require: true

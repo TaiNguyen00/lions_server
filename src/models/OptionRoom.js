@@ -9,10 +9,14 @@ const OptionRoomSchema = new mongoose.Schema({
         type: String,
         require: true
     },
-    optionId: [
+    label_room: {
+        type: String,
+        require: true
+    },
+    packageID: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Option'
+            ref: 'Package'
         }
     ],
 

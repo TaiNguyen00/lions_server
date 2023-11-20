@@ -1,4 +1,5 @@
 import YourProduct from '../models/YourProduct'
+import AccountMangage from "../models/accountManagement"
 
 export const getAllYourProduct = async (req, res, next) => {
     try {
@@ -17,6 +18,23 @@ export const addYourProduct = async (req, res, next) => {
         res.status(404).json(err)
     }
 }
+export const updateYourProduct = async (req, res, next) => {
+    try {
+        const updatedYourProduct = await YourProduct.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true }
+        );
+
+        if (!updatedYourProduct) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+
+        return res.status(200).json(updatedYourProduct);
+    } catch (err) {
+        return res.status(500).json(err);
+    }
+};
 // chua tao ham xoa 
 export const deleteYourProduct = async (req, res, next) => {
     try {

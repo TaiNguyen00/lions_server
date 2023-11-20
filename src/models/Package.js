@@ -10,16 +10,36 @@ const PackageSchema = new mongoose.Schema({
         type: String,
         required: true, // bắt buộc
     },
+    old_price: {
+        type: Number,
+        // required: true, // bắt buộc
+    },
     price: {
         type: Number,
         required: true, // bắt buộc
     },
-    id_option: [
+    id_optionAdditional: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Option'
+            ref: 'optionAdditional'
+
+        }
+    ], id_OptionStaff: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'optionStaff'
+
         }
     ],
+    id_OptionRoom: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'optionRoom'
+
+        }
+    ],
+
+
 }, { timestamps: true })
 
 // middleware to populate lv2

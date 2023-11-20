@@ -1,8 +1,8 @@
 import optionRoom from '../models/OptionRoom'
-import Option from '../models/Option'
+import Package from '../models/Package'
 export const getAllOptionRoom = async (req, res, next) => {
     try {
-        const user = await optionRoom.find().populate("optionId")
+        const user = await optionRoom.find()
         return res.status(200).json({
             errcode: 0,
             user
@@ -15,9 +15,9 @@ export const addOptionRoom = async (req, res, next) => {
     try {
         const newOptionRoom = new optionRoom(req.body)
         const saveOptionRoom = await newOptionRoom.save()
-        const updateOption = await Option.findByIdAndUpdate(newOptionRoom.optionId, {
+        const updateOption = await Package.findByIdAndUpdate(newOptionRoom.packageID, {
             $addToSet: {
-                id_optionRoom: newOptionRoom._id
+                id_OptionRoom: newOptionRoom._id
             }
         })
         if (!updateOption) {
