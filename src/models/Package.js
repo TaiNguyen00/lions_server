@@ -27,14 +27,14 @@ const PackageSchema = new mongoose.Schema({
     ], id_OptionStaff: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'optionAdditional'
+            ref: 'optionStaff'
 
         }
     ],
     id_OptionRoom: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'optionAdditional'
+            ref: 'optionRoom'
 
         }
     ],
