@@ -1,6 +1,6 @@
 import User from "../models/User"
 import Package from "../models/Package"
-
+import AccountManage from "../models/accountManagement"
 export const getAllUser = async (req, res, next) => {
   try {
     const users = await User.find()
@@ -35,7 +35,7 @@ export const deleteUser = async (req, res, next) => {
 export const UpdateUserByPackage = async (req, res) => {
   const packageID = req.body._id
   try {
-    const updateUserPackage = await User.findByIdAndUpdate(req.params.id, {$push: {id_package: packageID}}, {new: true})
+    const updateUserPackage = await User.findByIdAndUpdate(req.params.id, { $push: { id_package: packageID } }, { new: true })
     res.status(200).json({
       message: "update success",
       updateUserPackage: updateUserPackage
@@ -44,3 +44,54 @@ export const UpdateUserByPackage = async (req, res) => {
     res.status(500).json(err)
   }
 }
+// for manager account
+export const createAccountManageForUser = async (req, res, next) => {
+  const { username } = req.body
+  try {
+    // tìm thằng user muốn tạo thông qua username
+    const existingUser = await User.findOne({ username });
+
+    if (existingUser) {
+      // có thể tạo mới mk cách ngẫu nhiêu nếu muốn, truyền vào lenght của mk muốn có
+      const randomPassword = generateRandomPassword(4)
+
+      // console.log(randomPassword)
+      const hashPassword = bcrypt.hashSync(req.body.password, 10)
+
+      const newAccountForManage = await AccountManage.create({
+        userID: existingUser._id,
+        username: username,
+        password: hashPassword
+      })
+      return res.status(200).json({
+        message: "A new account for manager created",
+        newAccountForManage: newAccountForManage
+      })
+    } else {
+      return res.status(205).json("User not found")
+    }
+  } catch (err) {
+    return res.status(500).json(err)
+  }
+}
+export const getAccountsManage = async (req, res, next) => {
+  try {
+    const accountsManage = await AccountManage.find({}).populate("userID")
+
+    return res.status(200).json({
+      accountsManage
+    })
+  } catch (err) {
+    return res.status(500).json(err)
+  }
+}
+// generate random password for user  (close func)
+const generateRandomPassword = (length) => {
+  const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let password = "";
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * charset.length);
+    password += charset.charAt(randomIndex);
+  }
+  return password;
+};

@@ -13,11 +13,12 @@ const accountManagementSchema = new mongoose.Schema({
             ref: 'YourProduct'
         }
     ],
-    userName: {
+    username: {
         type: String,
-        require: true
+        require: true,
+        unique: true
     },
-    passWord: {
+    password: {
         type: String,
         require: true
     }

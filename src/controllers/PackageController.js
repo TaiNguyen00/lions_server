@@ -1,7 +1,7 @@
 import Package from '../models/Package'
 export const getAllPackage = async (req, res, next) => {
     try {
-        const packageAll = await Package.find().populate('id_OptionRoom id_OptionStaff id_optionAdditional')
+        const packageAll = await Package.find()
         return res.status(200).json(packageAll)
     } catch (err) {
         return res.status(404).json(err)
@@ -9,7 +9,7 @@ export const getAllPackage = async (req, res, next) => {
 }
 export const getPackageById = async (req, res, next) => {
     try {
-        const packageById = await Package.findById(req.params.id).populate('id_OptionRoom id_OptionStaff id_optionAdditional');
+        const packageById = await Package.findById(req.params.id)
 
         if (!packageById) {
             return res.status(404).json({ message: 'Package not found' });

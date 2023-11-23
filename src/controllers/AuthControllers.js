@@ -2,7 +2,7 @@
 import User from "../models/User"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
-
+import AccountManage from "../models/accountManagement"
 export const registerUser = async (req, res, next) => {
   try {
     const newUser = new User(req.body)
@@ -22,7 +22,7 @@ export const registerUser = async (req, res, next) => {
 
 export const loginUser = async (req, res) => {
   try {
-    
+
     const user = await User.findOne({ email: req.body.email }).populate('id_package')
     console.log(user)
     if (!user) {
@@ -49,5 +49,31 @@ export const loginUser = async (req, res) => {
       });
   } catch (err) {
     res.status(500).json(err)
+  }
+}
+// account manager
+export const loginForAccountManage = async (req, res) => {
+  try {
+    const user = await AccountManage.findOne({ username: req.body.username })
+    if (!user) {
+      return res.status(401).json("wrong email or password");
+    }
+    const isPasswordValid = bcrypt.compareSync(
+      req.body.password,
+      user.password
+    );
+    if (!isPasswordValid) {
+      return res.status(400).json("wrong username or password")
+    }
+
+    return res.status(200).json({
+      message: "Login success",
+      user: user
+    })
+
+
+  } catch (err) {
+    res.status(500).json(err);
+
   }
 }

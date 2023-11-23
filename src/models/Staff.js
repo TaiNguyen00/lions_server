@@ -10,19 +10,22 @@ const StaffSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'YourProduct'
     },
-    id_optionStaff: {
+    packageID: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'optionStaff'
+        ref: 'Package'
     },
-    manage_reservations: {
+    user_name: {
         type: String,
         required: true, // bắt buộc
     },
-    revenue: {
+    password: {
         type: Number,
         required: true
     },
-
+    codeID_staff: {
+        type: String,
+        required: true
+    },
 }, { timestamps: true })
 
 module.exports = mongoose.model("Staff", StaffSchema)
