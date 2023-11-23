@@ -1,11 +1,11 @@
 import mongoose from "mongoose"
 
 const CateloryRoomSchema = new mongoose.Schema({
-    id_room: {
+    id_room: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Room'
 
-    }, cateloryRoom: {
+    }], cateloryRoom: {
         type: String,
         required: true, // bắt buộc
     },

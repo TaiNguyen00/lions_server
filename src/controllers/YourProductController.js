@@ -1,4 +1,5 @@
 import YourProduct from '../models/YourProduct'
+import AccountMangage from "../models/accountManagement"
 
 export const getAllYourProduct = async (req, res, next) => {
     try {
