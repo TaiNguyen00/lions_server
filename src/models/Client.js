@@ -5,6 +5,10 @@ const ClientSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Room'
     },
+    room_code: {
+        type: Number,
+        required: true
+    },
     name: {
         type: String,
         required: true, // bắt buộc
