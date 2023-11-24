@@ -10,12 +10,6 @@ const UserSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Package'
   },
-  account_manage: 
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'accountManagement'
-    }
-  ,
   last_name: {
     type: String,
     required: true, // bắt buộc
@@ -23,7 +17,7 @@ const UserSchema = new mongoose.Schema({
   middle_name: {
     type: String,
   },
-  userName: {
+  username: {
     type: String,
     required: true,
     unique: true

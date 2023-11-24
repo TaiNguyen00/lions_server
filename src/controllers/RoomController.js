@@ -1,10 +1,10 @@
 import Room from '../models/Room'
-import OptionRoom from '../models/OptionRoom'
+import Package from '../models/Package'
 import floor from '../models/Foor'
 import CateloryRoom from '../models/CateloryRoom'
 export const getAllRoom = async (req, res, next) => {
     try {
-        const rooms = await Room.find().populate("floor_id").populate('catelory_room');
+        const rooms = await Room.find().populate('catelory_room  client_id');
         return res.status(200).json({
             errcode: 0,
             rooms: rooms
@@ -16,9 +16,9 @@ export const getAllRoom = async (req, res, next) => {
 export const addRoom = async (req, res, next) => {
     try {
         const roomCount = await Room.countDocuments();
-        const optionRoom = await OptionRoom.findById(req.body.optionRoomId);
+        const packages = await Package.findById(req.body.packageID);
 
-        if (roomCount >= optionRoom.quantity_room) {
+        if (roomCount >= packages.quantity_room) {
             return res.status(400).json('Bạn không thể tạo thêm phòng, đã đạt giới hạn');
         }
 
@@ -46,7 +46,8 @@ export const addRoom = async (req, res, next) => {
 
 export const editRoom = async (req, res, next) => {
     try {
-        const updateRoom = await Room.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
+        const id = req.body._id
+        const updateRoom = await Room.findByIdAndUpdate(id, { $set: req.body }, { new: true })
         res.status(200).json(updateRoom)
     } catch (err) {
         res.status(500).json(err)

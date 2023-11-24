@@ -1,5 +1,5 @@
 import Staff from '../models/Staff'
-import optionStaff from '../models/OptionStaff'
+import Package from '../models/Package'
 import YourProduct from '../models/YourProduct'
 export const getAllStaff = async (req, res, next) => {
     try {
@@ -15,9 +15,9 @@ export const getAllStaff = async (req, res, next) => {
 export const addStaff = async (req, res, next) => {
     try {
         const staffCount = await Staff.countDocuments();
-        const optionStaffs = await optionStaff.findById(req.body.id_optionStaff);
-        console.log(optionStaffs.quantity_staff);
-        if (staffCount >= optionStaffs.quantity_staff) {
+        const packages = await Package.findById(req.body.packageID);
+        console.log(packages.quantity_staff);
+        if (staffCount >= packages.quantity_staff) {
             return res.status(400).json("Ban khong the tao them nhan vien");
         }
 

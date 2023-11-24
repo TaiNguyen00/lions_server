@@ -12,7 +12,7 @@ export const registerUser = async (req, res, next) => {
     if (checkEmail) {
       return res.status(401).json("Email này đã có người sử dụng");
     }
-    const saveUser = await newUser.save();
+    // const saveUser = await newUser.save();
     return res.status(200).json({
       message: "Đăng kí thành công",
     });

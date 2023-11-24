@@ -2,8 +2,7 @@ import User from "../models/User"
 import Package from "../models/Package"
 import AccountManage from "../models/accountManagement"
 
-import bcrypt from "bcrypt"
-import e from "express"
+
 
 export const getAllUser = async (req, res, next) => {
   try {
@@ -62,7 +61,7 @@ export const createAccountManageForUser = async (req, res, next) => {
       const randomPassword = generateRandomPassword(6)
 
       console.log(randomPassword)
-
+      // package
       const newAccountForManage = await AccountManage.create({
         userID: existingUser._id,
         username: username,
@@ -83,9 +82,8 @@ export const createAccountManageForUser = async (req, res, next) => {
 export const getAccountsManage = async (req, res, next )=> {
   try {
     const accountsManage = await AccountManage.find({}).populate("userID")
-
     return res.status(200).json({
-      accountsManage
+      accountsManage: accountsManage
     })
   } catch (err) {
     return res.status(500).json(err)
@@ -111,12 +109,10 @@ const generateRandomPassword = (length) => {
 export const checkIsFirstLoginToManagePage = async (req, res, next) => {
   try {
     const findUser =  await User.findById(req.body._id)
-
     if (!findUser.account_manage) {
       res.redirect('http://127.0.0.1:5173/register-product')
     } else {
       res.redirect('http://127.0.0.1:5173/dashboard')
-
     }
   } catch (err) {
     return res.status(500).json(err)

@@ -2,7 +2,7 @@ import Package from '../models/Package'
 import AccountManage from "../models/accountManagement"
 export const getAllPackage = async (req, res, next) => {
     try {
-        const packageAll = await Package.find().populate('id_OptionRoom id_OptionStaff id_optionAdditional')
+        const packageAll = await Package.find()
         return res.status(200).json(packageAll)
     } catch (err) {
         return res.status(404).json(err)
@@ -10,7 +10,7 @@ export const getAllPackage = async (req, res, next) => {
 }
 export const getPackageById = async (req, res, next) => {
     try {
-        const packageById = await Package.findById(req.params.id).populate('id_OptionRoom id_OptionStaff id_optionAdditional');
+        const packageById = await Package.findById(req.params.id)
 
         if (!packageById) {
             return res.status(404).json({ message: 'Package not found' });
@@ -42,9 +42,9 @@ export const editPackage = async (req, res, next) => {
 }
 
 
-// người dùng mới thì register. 
+// người dùng mới thì register.
 // đăng kí tài khoản. Login, dùng thử thì chưa có tài khoản quản lý. Khi mà đăng kí khách sạn thì sẽ sinh ra một cái account có thông tin gói đang dùng
-// 2 trường hợp chưa có account quản lý và đã có account quản lí. Khi chưa có account quản lý, thì phải đăng kí khách sạn, sinh ra account quản lý 
+// 2 trường hợp chưa có account quản lý và đã có account quản lí. Khi chưa có account quản lý, thì phải đăng kí khách sạn, sinh ra account quản lý
 // cần thêm một api tài khoản quản lý. Nếu đã có rồi, thì k cần đăng kí nữa
 
 
