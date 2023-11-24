@@ -30,7 +30,7 @@ export const VerifyToken = (req, res, next) => {
   });
 };
   
-
+// kieemr tra user da dang nhap chua
 export const VerifyUser = (req, res, next) => {
   VerifyToken(req, res, (err) => {
     if (err) return res.status(400).json("Something went wrong")
@@ -42,6 +42,7 @@ export const VerifyUser = (req, res, next) => {
   })
 }
 
+// kiem tra admin
 export const VerifyAdmin = (req, res, next) => {
   VerifyToken(req, res, (err) => {
    if (err) return res.status(400).json("Something went wrong")
@@ -52,3 +53,7 @@ export const VerifyAdmin = (req, res, next) => {
    }
  });
 };
+
+// cho le tan
+
+// cho chu khach san

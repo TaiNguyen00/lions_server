@@ -1,4 +1,5 @@
 import Package from '../models/Package'
+import AccountManage from "../models/accountManagement"
 export const getAllPackage = async (req, res, next) => {
     try {
         const packageAll = await Package.find()
@@ -49,3 +50,8 @@ export const editPackage = async (req, res, next) => {
 
 // cần thêm một bảng account control product
 // cần một api đăng nhập trang quản lí này. api đấy sẽ lấy giữ liệu từ account đã đk sản phẩm của nó. Chứa id của thằng đk, thông tin. 
+
+
+
+// api route check is first or second time
+

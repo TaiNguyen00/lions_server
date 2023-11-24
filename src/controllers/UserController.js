@@ -1,6 +1,9 @@
 import User from "../models/User"
 import Package from "../models/Package"
 import AccountManage from "../models/accountManagement"
+
+
+
 export const getAllUser = async (req, res, next) => {
   try {
     const users = await User.find()
@@ -53,7 +56,7 @@ export const createAccountManageForUser = async (req, res, next) => {
 
     if (existingUser) {
       // có thể tạo mới mk cách ngẫu nhiêu nếu muốn, truyền vào lenght của mk muốn có
-      const randomPassword = generateRandomPassword(4)
+      const randomPassword = generateRandomPassword(6)
 
       // console.log(randomPassword)
       const hashPassword = bcrypt.hashSync(req.body.password, 10)
@@ -77,9 +80,8 @@ export const createAccountManageForUser = async (req, res, next) => {
 export const getAccountsManage = async (req, res, next) => {
   try {
     const accountsManage = await AccountManage.find({}).populate("userID")
-
     return res.status(200).json({
-      accountsManage
+      accountsManage: accountsManage
     })
   } catch (err) {
     return res.status(500).json(err)
@@ -95,3 +97,19 @@ const generateRandomPassword = (length) => {
   }
   return password;
 };
+
+
+// check is first LOGIN to manage pagges
+
+export const checkIsFirstLoginToManagePage = async (req, res, next) => {
+  try {
+    const findUser = await User.findById(req.body._id)
+    if (!findUser.account_manage) {
+      res.redirect('http://127.0.0.1:5173/register-product')
+    } else {
+      res.redirect('http://127.0.0.1:5173/dashboard')
+    }
+  } catch (err) {
+    return res.status(500).json(err)
+  }
+}

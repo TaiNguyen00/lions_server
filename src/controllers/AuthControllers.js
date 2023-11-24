@@ -1,7 +1,7 @@
 import User from "../models/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-
+import AccountManage from "../models/accountManagement"
 export const registerUser = async (req, res, next) => {
   try {
     const newUser = new User(req.body);
@@ -12,7 +12,7 @@ export const registerUser = async (req, res, next) => {
     if (checkEmail) {
       return res.status(401).json("Email này đã có người sử dụng");
     }
-    const saveUser = await newUser.save();
+    // const saveUser = await newUser.save();
     return res.status(200).json({
       message: "Đăng kí thành công",
     });
@@ -23,9 +23,16 @@ export const registerUser = async (req, res, next) => {
 
 export const loginUser = async (req, res) => {
   try {
+<<<<<<< HEAD
 
     const user = await User.findOne({ email: req.body.email }).populate('id_package')
     console.log(user)
+=======
+    const user = await User.findOne({ email: req.body.email }).populate(
+      "id_package"
+    );
+    // console.log(user);
+>>>>>>> 82c38a85f3fd8f1ed9104cf691fc8eb92aed49bf
     if (!user) {
       return res.status(401).json("wrong email or password");
     }

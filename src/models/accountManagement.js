@@ -7,12 +7,12 @@ const accountManagementSchema = new mongoose.Schema({
             ref: 'User'
         }
     ],
-    yourProductID: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'YourProduct'
-        }
-    ],
+    yourProduct:
+    {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'YourProduct'
+    }
+    ,
     username: {
         type: String,
         require: true,
