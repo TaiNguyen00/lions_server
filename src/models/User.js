@@ -10,7 +10,7 @@ const UserSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Package'
   },
-  accountManagementID: 
+  account_manage: 
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'accountManagement'
@@ -59,6 +59,10 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  account_manage: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'accountManagement'
+  }
 }, { timestamps: true })
 
 module.exports = mongoose.model("User", UserSchema)

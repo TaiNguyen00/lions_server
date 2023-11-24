@@ -10,11 +10,12 @@ const accountManagementSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "YourProduct",
     },
-    userName: {
+    username: {
       type: String,
       require: true,
+      unique: true
     },
-    passWord: {
+    password: {
       type: String,
       require: true,
     },

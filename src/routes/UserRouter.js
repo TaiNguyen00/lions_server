@@ -1,5 +1,5 @@
 import express from "express"
-import { UpdateUserByPackage, createAccountManageForUser, deleteUser, editUser, getAccountsManage, getAllUser } from "../controllers/UserController"
+import { UpdateUserByPackage, checkIsFirstLoginToManagePage, createAccountManageForUser, deleteUser, editUser, getAccountsManage, getAllUser } from "../controllers/UserController"
 import { VerifyUser, VerifyAdmin } from "../middlewares/VerifyToken";
 
 const router = express.Router();
@@ -15,6 +15,7 @@ router.put('/update-package/:id', VerifyUser, UpdateUserByPackage)
 // for manager 
 router.post('/create-account-management', createAccountManageForUser)
 router.get("/get-all-accountsmanage", getAccountsManage)
+router.post("/check-login-accountmanage", checkIsFirstLoginToManagePage)
 
 // router api delemany 
 

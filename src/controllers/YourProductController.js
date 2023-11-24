@@ -9,6 +9,9 @@ export const getAllYourProduct = async (req, res, next) => {
         return res.status(500).json(err)
     }
 }
+
+// add Your product with AccountManager
+
 export const addYourProduct = async (req, res, next) => {
     try {
         const newYourProduct = new YourProduct(req.body)

@@ -2,6 +2,8 @@ import User from "../models/User"
 import Package from "../models/Package"
 import AccountManage from "../models/accountManagement"
 
+import bcrypt from "bcrypt"
+import e from "express"
 
 export const getAllUser = async (req, res, next) => {
   try {
@@ -50,21 +52,21 @@ export const UpdateUserByPackage = async (req, res) => {
 
 // for manager account
 export const createAccountManageForUser = async (req, res, next) => {
-  const {userName} =  req.body
+  const {username} =  req.body
   try {
     // tìm thằng user muốn tạo thông qua username
-    const existingUser = await User.findOne({ userName });
+    const existingUser = await User.findOne({ username });
     
     if (existingUser) {
       // có thể tạo mới mk cách ngẫu nhiêu nếu muốn, truyền vào lenght của mk muốn có
-      const randomPassword = generateRandomPassword(4)
+      const randomPassword = generateRandomPassword(6)
 
       console.log(randomPassword)
 
       const newAccountForManage = await AccountManage.create({
         userID: existingUser._id,
-        userName: userName,
-        passWord: "123newpassword"
+        username: username,
+        password: randomPassword
       })
       return res.status(200).json({
         message: "A new account for manager created",
@@ -77,7 +79,6 @@ export const createAccountManageForUser = async (req, res, next) => {
     return res.status(500).json(err)
   }
 }
-
 
 export const getAccountsManage = async (req, res, next )=> {
   try {
@@ -103,3 +104,21 @@ const generateRandomPassword = (length) => {
   }
   return password;
 };
+
+
+// check is first LOGIN to manage pagges
+
+export const checkIsFirstLoginToManagePage = async (req, res, next) => {
+  try {
+    const findUser =  await User.findById(req.body._id)
+
+    if (!findUser.account_manage) {
+      res.redirect('http://127.0.0.1:5173/register-product')
+    } else {
+      res.redirect('http://127.0.0.1:5173/dashboard')
+
+    }
+  } catch (err) {
+    return res.status(500).json(err)
+  }
+}
