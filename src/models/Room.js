@@ -21,11 +21,11 @@ const RoomSchema = new mongoose.Schema({
         ref: 'floor'
     },
 
-    catelory_room: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'CateloryRoom'
-        }]
+    catelory_room:
+    {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'CateloryRoom'
+    }
     ,
     client_id: [
         {
