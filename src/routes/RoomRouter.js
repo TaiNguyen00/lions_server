@@ -4,7 +4,7 @@ const roomRouter = Router()
 
 roomRouter.get('/', getAllRoom)
 roomRouter.post('/add-room', addRoom)
-roomRouter.put('/edit-room/:id', editRoom)
+roomRouter.put('/edit-room', editRoom)
 roomRouter.delete('/delete-room/:id', deleteRoom)
 // router.get('/', deleteRoom)
 

@@ -1,14 +1,23 @@
 import express from "express"
-import { deleteUser, editUser, getAllUser } from "../controllers/UserController"
-import { VerifyUser } from "../middlewares/VerifyToken";
+import { UpdateUserByPackage, checkIsFirstLoginToManagePage, createAccountManageForUser, deleteUser, editUser, getAccountsManage, getAllUser } from "../controllers/UserController"
+import { VerifyUser, VerifyAdmin } from "../middlewares/VerifyToken";
 
 const router = express.Router();
 
 
 // test API
-router.get("/", VerifyUser ,getAllUser);
-router.put('/edit-user/:id', editUser)
-router.delete('/delete/:id', deleteUser)
+router.get("/", VerifyAdmin, getAllUser);
+// router.get("/", getAllUser);
+router.put('/edit-user/:id', VerifyUser, editUser)
+router.delete('/delete/:id', VerifyUser, deleteUser)
+router.put('/update-package/:id', VerifyUser, UpdateUserByPackage)
+
+// for manager 
+router.post('/create-account-management', createAccountManageForUser)
+router.get("/get-all-accountsmanage", getAccountsManage)
+router.post("/check-login-accountmanage", checkIsFirstLoginToManagePage)
+
+// router api delemany 
 
 
 

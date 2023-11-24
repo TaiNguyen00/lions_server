@@ -1,15 +1,15 @@
 import mongoose from "mongoose";
 
-const OptionStaffSchema = new mongoose.Schema({
-    quantity_staff: {
+const OptionAdditionalSchema = new mongoose.Schema({
+    quantity_additional: {
         type: Number,
         require: true
     },
-    title_staff: {
+    title_additional: {
         type: String,
         require: true
     },
-    label_staff: {
+    label_additional: {
         type: String,
         require: true
     },
@@ -21,4 +21,4 @@ const OptionStaffSchema = new mongoose.Schema({
     ],
 
 })
-module.exports = mongoose.model('optionStaff', OptionStaffSchema)
+module.exports = mongoose.model('optionAdditional', OptionAdditionalSchema)

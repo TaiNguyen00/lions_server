@@ -13,16 +13,21 @@ import router from './src/routes/configRouter'
 
 
 const app = express()
-const PORT = process.env.PORT || 8081
+
+let PORT = process.env.NODE_ENV === 'production' ? process.env.PORT_MAIN : process.env.PORT_DEV
 
 
 
 // middlewares API
+app.use(cors({
+  origin: ['http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:5174'],
+  credentials: true,
 
-app.use(cors())
-app.use(express.json())
+}));
+
 app.use(cookieParser())
 app.use(morgan())
+app.use(express.json())
 
 app.use('/api/v1', router)
 

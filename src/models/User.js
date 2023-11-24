@@ -17,6 +17,11 @@ const UserSchema = new mongoose.Schema({
   middle_name: {
     type: String,
   },
+  username: {
+    type: String,
+    required: true,
+    unique: true
+  },
   email: {
     type: String,
     required: true,
@@ -48,6 +53,10 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  account_manage: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'accountManagement'
+  }
 }, { timestamps: true })
 
 module.exports = mongoose.model("User", UserSchema)

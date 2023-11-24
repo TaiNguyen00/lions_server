@@ -4,23 +4,26 @@ import userRouter from "./UserRouter"
 import authRouter from "./AuthRouter"
 import packageRouter from "./PackageRouter"
 import roomRouter from "./RoomRouter"
-import optionRouter from "./OptionRouter"
-import OptionRoomRouter from "./RoomOptionRouter"
 import YourProductRouter from "./YourProductRouter"
 import floorRouter from "./FoorRouter"
-import optionStaffRouter from "./StaffOptionRouter"
 import staffRouter from "./StaffRouter"
+import paymentRouter from "./PaymentRouter"
+import cateloryRoomRouter from "./cateloryRoomRouter"
+import ClientRouter from "./ClientRouter"
 const router = Router()
 
-router.use("user", userRouter)
+import { VerifyAdmin } from "../middlewares/VerifyToken";
+
+// admin
+router.use("/user", userRouter)
 router.use("/package/", packageRouter)
-router.use("/option/", optionRouter)
-router.use("/optionRoom/", OptionRoomRouter)
-router.use("/optionStaff/", optionStaffRouter)
-router.use("/yourProduct/", YourProductRouter)
-router.use("/staff/", staffRouter)
-router.use("/auth", authRouter)
 router.use("/room/", roomRouter)
+router.use("/staff/", staffRouter)
+router.use("/yourProduct/", YourProductRouter)
 router.use("/floor/", floorRouter)
+router.use("/auth", authRouter)
+router.use("/payment", paymentRouter)
+router.use("/cateloryRoom", cateloryRoomRouter)
+router.use("/client", ClientRouter)
 
 module.exports = router
