@@ -23,16 +23,10 @@ export const registerUser = async (req, res, next) => {
 
 export const loginUser = async (req, res) => {
   try {
-<<<<<<< HEAD
-
-    const user = await User.findOne({ email: req.body.email }).populate('id_package')
-    console.log(user)
-=======
     const user = await User.findOne({ email: req.body.email }).populate(
       "id_package"
     );
     // console.log(user);
->>>>>>> 82c38a85f3fd8f1ed9104cf691fc8eb92aed49bf
     if (!user) {
       return res.status(401).json("wrong email or password");
     }
