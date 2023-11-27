@@ -55,7 +55,8 @@ export const editRoom = async (req, res, next) => {
 }
 export const deleteRoom = async (req, res, next) => {
     try {
-        const deletedRoom = await Room.findByIdAndDelete(req.params.id);
+        const id = req.body._id
+        const deletedRoom = await Room.findByIdAndDelete(id);
 
         if (!deletedRoom) {
             return res.status(404).json({ message: 'Room not found' });

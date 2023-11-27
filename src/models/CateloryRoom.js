@@ -13,7 +13,7 @@ const CateloryRoomSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    priceMonth: {
+    priceHour: {
         type: Number,
         required: true
     },

@@ -1,12 +1,11 @@
 import mongoose from "mongoose"
 
 const accountManagementSchema = new mongoose.Schema({
-    userID: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        }
-    ],
+    userID:
+    {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
     yourProduct:
     {
         type: mongoose.Schema.Types.ObjectId,

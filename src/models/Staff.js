@@ -1,11 +1,6 @@
 import mongoose from "mongoose"
 
 const StaffSchema = new mongoose.Schema({
-    id_room: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Room'
-
-    }],
     id_product: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'YourProduct'

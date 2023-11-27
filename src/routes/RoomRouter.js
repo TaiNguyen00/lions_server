@@ -5,7 +5,7 @@ const roomRouter = Router()
 roomRouter.get('/', getAllRoom)
 roomRouter.post('/add-room', addRoom)
 roomRouter.put('/edit-room', editRoom)
-roomRouter.delete('/delete-room/:id', deleteRoom)
+roomRouter.delete('/delete-room', deleteRoom)
 // router.get('/', deleteRoom)
 
 module.exports = roomRouter
