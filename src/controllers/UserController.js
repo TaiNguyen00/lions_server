@@ -16,12 +16,11 @@ export const getAllUser = async (req, res, next) => {
 
 export const editUser = async (req, res, next) => {
   try {
-    const useId = req.params.id
-    const data = req.body
-    // const update = await findByIdAndUpdate(useId, data, { new: true })
-    res.status(200).json(data)
+    const id = req.body._id
+    const update = await User.findByIdAndUpdate(id, { $set: req.body }, { new: true })
+    return res.status(200).json(update)
   } catch (err) {
-    res.status(500).json(err)
+    return res.status(500).json(err)
   }
 }
 
@@ -36,7 +35,7 @@ export const deleteUser = async (req, res, next) => {
 }
 
 export const UpdateUserByPackage = async (req, res) => {
-  const packageID = req.body._id
+  const { packageID } = req.body
   try {
     const updateUserPackage = await User.findByIdAndUpdate(req.params.id, { $push: { id_package: packageID } }, { new: true })
     res.status(200).json({
@@ -49,34 +48,37 @@ export const UpdateUserByPackage = async (req, res) => {
 }
 // for manager account
 export const createAccountManageForUser = async (req, res, next) => {
-  const { username } = req.body
+  const { username, yourProductID } = req.body
   try {
     // tìm thằng user muốn tạo thông qua username
     const existingUser = await User.findOne({ username });
-
     if (existingUser) {
       // có thể tạo mới mk cách ngẫu nhiêu nếu muốn, truyền vào lenght của mk muốn có
       const randomPassword = generateRandomPassword(6)
 
-      // console.log(randomPassword)
-      const hashPassword = bcrypt.hashSync(req.body.password, 10)
-
       const newAccountForManage = await AccountManage.create({
         userID: existingUser._id,
+        package: existingUser.id_package._id,
         username: username,
-        password: hashPassword
+        yourProduct: yourProductID,
+        password: randomPassword
       })
+      await User.findByIdAndUpdate(existingUser._id, { $addToSet: { account_manage: newAccountForManage._id } });
       return res.status(200).json({
         message: "A new account for manager created",
         newAccountForManage: newAccountForManage
       })
     } else {
       return res.status(205).json("User not found")
+
     }
+
   } catch (err) {
+    console.log(err);
     return res.status(500).json(err)
   }
 }
+
 export const getAccountsManage = async (req, res, next) => {
   try {
     const accountsManage = await AccountManage.find({}).populate("userID")
@@ -87,6 +89,21 @@ export const getAccountsManage = async (req, res, next) => {
     return res.status(500).json(err)
   }
 }
+
+export const getAccountById = async (req, res, next) => {
+  try {
+    const id = req.body._id
+    const accountManege = await AccountManage.findById(id);
+    if (!accountManege) {
+      return res.status(404).json({ message: 'Account  not found' });
+    }
+    return res.status(200).json(accountManege);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+};
+
+
 // generate random password for user  (close func)
 const generateRandomPassword = (length) => {
   const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

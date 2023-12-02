@@ -10,12 +10,11 @@ export const getAllCateloryRoom = async (req, res, next) => {
 }
 export const getCateloryRoomById = async (req, res, next) => {
     try {
-        const cateloryRoom = await CateloryRoom.findById(req.params.id);
-
+        const id = req.body._id
+        const cateloryRoom = await CateloryRoom.findById(id);
         if (!cateloryRoom) {
             return res.status(404).json({ message: 'Category room not found' });
         }
-
         return res.status(200).json(cateloryRoom);
     } catch (err) {
         return res.status(500).json(err);

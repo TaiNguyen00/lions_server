@@ -12,15 +12,14 @@ export const registerUser = async (req, res, next) => {
     if (checkEmail) {
       return res.status(401).json("Email này đã có người sử dụng");
     }
-    // const saveUser = await newUser.save();
+    const saveUser = await newUser.save();
     return res.status(200).json({
-      message: "Đăng kí thành công",
+      message: "Đăng Kí Thành Công"
     });
   } catch (err) {
     return res.status(500).json(err);
   }
-};
-
+}
 export const loginUser = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email }).populate(

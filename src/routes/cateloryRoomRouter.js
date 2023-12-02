@@ -3,7 +3,7 @@ import { addCateloryRoom, deleteCateloryRoom, getAllCateloryRoom, getCateloryRoo
 
 const cateloryRoomRouter = Router()
 cateloryRoomRouter.get('/getAll', getAllCateloryRoom)
-cateloryRoomRouter.get('/getID/:id', getCateloryRoomById)
+cateloryRoomRouter.post('/getID', getCateloryRoomById)
 cateloryRoomRouter.post('/add-cateloryRoom', addCateloryRoom)
 cateloryRoomRouter.put('/edit-cateloryRoom/:id', updateCateloryRoom)
 cateloryRoomRouter.delete('/delete-cateloryRoom/:id', deleteCateloryRoom)

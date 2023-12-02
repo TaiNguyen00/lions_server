@@ -17,7 +17,12 @@ const YourProductSchema = new mongoose.Schema({
         type: String,
         required: true, // bắt buộc
     },
-    type_product:
+    phone_product:
+    {
+        type: String,
+        required: true, // bắt buộc
+    },
+    adress_product:
     {
         type: String,
         required: true, // bắt buộc
