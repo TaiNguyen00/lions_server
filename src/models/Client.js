@@ -31,6 +31,14 @@ const ClientSchema = new mongoose.Schema({
         type: String,
         require: true
     },
+    dateRange: {
+        type: Date,
+        // require: true
+    },
+    dateExpiration: {
+        type: Date,
+        // require: true
+    },
 }, { timestamps: true })
 
 module.exports = mongoose.model("Client", ClientSchema)

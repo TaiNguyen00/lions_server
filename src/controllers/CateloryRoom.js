@@ -31,9 +31,9 @@ export const addCateloryRoom = async (req, res, next) => {
 }
 export const updateCateloryRoom = async (req, res, next) => {
     try {
+        const id = req.body._id
         const updatedCateloryRoom = await CateloryRoom.findByIdAndUpdate(
-            req.params.id,
-            req.body,
+            id, { $set: req.body },
             { new: true }
         );
 

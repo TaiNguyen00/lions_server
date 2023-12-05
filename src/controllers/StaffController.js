@@ -4,10 +4,7 @@ import YourProduct from '../models/YourProduct'
 export const getAllStaff = async (req, res, next) => {
     try {
         const staffs = await Staff.find()
-        return res.status(200).json({
-            errcode: 0,
-            staffs: staffs
-        })
+        return res.status(200).json(staffs)
     } catch (err) {
         console.log(err)
     }
@@ -39,7 +36,8 @@ export const addStaff = async (req, res, next) => {
 }
 export const editStaff = async (req, res, next) => {
     try {
-        const updateStaff = await Staff.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
+        const id = req.body._id
+        const updateStaff = await Staff.findByIdAndUpdate(id, { $set: req.body }, { new: true })
         res.status(200).json(updateStaff)
     } catch (err) {
         res.status(500).json(err)

@@ -5,7 +5,8 @@ const CateloryRoomSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Room'
 
-    }], cateloryRoom: {
+    }],
+    cateloryRoom: {
         type: String,
         required: true, // bắt buộc
     },

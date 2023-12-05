@@ -34,6 +34,14 @@ const BillClientSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    priceRoom: {
+        type: Number,
+        required: true
+    },
+    catelory_room: {
+        type: String,
+        required: true
+    }
 
 }, { timestamps: true })
 

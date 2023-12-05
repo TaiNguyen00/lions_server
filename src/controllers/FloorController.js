@@ -47,10 +47,8 @@ export const addFloor = async (req, res, next) => {
 }
 export const editFloor = async (req, res, next) => {
     try {
-        const floorId = req.params.id;
-        const data = req.body;
-
-        const updatedFloor = await floor.findByIdAndUpdate(floorId, data, { new: true });
+        const id = req.body._id
+        const updatedFloor = await floor.findByIdAndUpdate(id, { $set: req.body }, { new: true });
 
         if (!updatedFloor) {
             return res.status(404).json({ message: 'Floor not found' });

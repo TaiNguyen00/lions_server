@@ -70,6 +70,12 @@ const RoomSchema = new mongoose.Schema({
     dateExpiration: {
         type: Date,
         // require: true
+    },
+    intendPrice: {
+        type: Number
+    },
+    intendTime: {
+        type: Number
     }
 
 }, { timestamps: true })
