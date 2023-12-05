@@ -10,21 +10,34 @@ const StaffSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'YourProduct'
     },
-    packageID: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Package'
-    },
-    user_name: {
+    username: {
         type: String,
         required: true, // bắt buộc
+        unique: true
     },
     password: {
         type: Number,
         required: true
     },
-    codeID_staff: {
+    name: {
         type: String,
         required: true
+    },
+    sex: {
+        type: String
+    },
+    phone: {
+        type: Number,
+        required: true
+    },
+    role: {
+        type: String,
+        required: true
+    },
+    codeID_staff: {
+        type: String,
+        required: true,
+        unique: true
     },
 }, { timestamps: true })
 

@@ -5,7 +5,7 @@ const staffRouter = Router()
 staffRouter.get('/', getAllStaff)
 staffRouter.post('/add-staff', addStaff)
 staffRouter.put('/edit-staff/:id', editStaff)
-staffRouter.delete('/delete-staff/:id', deleteStaff)
+staffRouter.delete('/delete-staff', deleteStaff)
 // router.get('/', deletestaff)
 
 module.exports = staffRouter

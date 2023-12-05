@@ -51,7 +51,7 @@ export const UpdateUserByPackage = async (req, res) => {
 
 // for manager account
 export const createAccountManageForUser = async (req, res, next) => {
-  const {username} =  req.body
+  const {username, yourProductId} =  req.body
   try {
     // tìm thằng user muốn tạo thông qua username
     const existingUser = await User.findOne({ username });
@@ -59,13 +59,14 @@ export const createAccountManageForUser = async (req, res, next) => {
     if (existingUser) {
       // có thể tạo mới mk cách ngẫu nhiêu nếu muốn, truyền vào lenght của mk muốn có
       const randomPassword = generateRandomPassword(6)
-
+      
       console.log(randomPassword)
       // package
       const newAccountForManage = await AccountManage.create({
         userID: existingUser._id,
+        yourProduct: yourProductId,
         username: username,
-        password: randomPassword
+        password: randomPassword,
       })
       return res.status(200).json({
         message: "A new account for manager created",

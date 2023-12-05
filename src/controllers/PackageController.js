@@ -1,5 +1,8 @@
 import Package from '../models/Package'
+
 import AccountManage from "../models/accountManagement"
+
+
 export const getAllPackage = async (req, res, next) => {
     try {
         const packageAll = await Package.find()
@@ -15,7 +18,6 @@ export const getPackageById = async (req, res, next) => {
         if (!packageById) {
             return res.status(404).json({ message: 'Package not found' });
         }
-
         return res.status(200).json(packageById);
     } catch (err) {
         return res.status(404).json(err);
