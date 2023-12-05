@@ -30,7 +30,7 @@ const StaffSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    role: {
+    role_staff: {
         type: String,
         required: true
     },

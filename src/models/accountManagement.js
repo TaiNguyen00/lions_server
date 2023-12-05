@@ -15,6 +15,10 @@ const accountManagementSchema = new mongoose.Schema(
       require: true,
       unique: true,
     },
+    role: {
+      type: String,
+      default: "owner"
+    },
     password: {
       type: String,
       require: true,
