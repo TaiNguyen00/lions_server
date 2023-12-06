@@ -10,8 +10,8 @@ export const getAllCateloryRoom = async (req, res, next) => {
 }
 export const getCateloryRoomById = async (req, res, next) => {
     try {
-        const id = req.body._id
-        const cateloryRoom = await CateloryRoom.findById(id);
+        const id = req.body.id_yourProduct
+        const cateloryRoom = await CateloryRoom.find({ id_yourProduct: id }).populate("id_room");
         if (!cateloryRoom) {
             return res.status(404).json({ message: 'Category room not found' });
         }
@@ -49,7 +49,8 @@ export const updateCateloryRoom = async (req, res, next) => {
 // chua tao ham xoa 
 export const deleteCateloryRoom = async (req, res, next) => {
     try {
-        await CateloryRoom.findByIdAndDelete(req.params.id)
+        const id = req.body._id
+        await CateloryRoom.findByIdAndDelete(id)
         return res.status(200).json('delete success')
     } catch (err) {
         return res.status(500).json(err)

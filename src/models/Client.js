@@ -1,10 +1,6 @@
 import mongoose from "mongoose"
 
 const ClientSchema = new mongoose.Schema({
-    id_room: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Room'
-    },
     room_code: {
         type: Number,
         required: true
@@ -38,6 +34,10 @@ const ClientSchema = new mongoose.Schema({
     dateExpiration: {
         type: Date,
         // require: true
+    },
+    id_yourProduct: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'YourProduct'
     },
 }, { timestamps: true })
 

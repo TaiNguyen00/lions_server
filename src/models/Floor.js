@@ -15,7 +15,8 @@ const FoorSchema = new mongoose.Schema({
     },
     floor: {
         type: Number,
-        require: true
+        require: true,
+        unique: true
     },
     title_second: {
         type: String,

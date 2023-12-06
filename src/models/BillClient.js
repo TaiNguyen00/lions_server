@@ -41,8 +41,11 @@ const BillClientSchema = new mongoose.Schema({
     catelory_room: {
         type: String,
         required: true
-    }
-
+    },
+    id_yourProduct: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'YourProduct'
+    },
 }, { timestamps: true })
 
 module.exports = mongoose.model("BillClient", BillClientSchema)

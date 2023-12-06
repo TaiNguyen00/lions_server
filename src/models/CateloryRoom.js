@@ -6,6 +6,10 @@ const CateloryRoomSchema = new mongoose.Schema({
         ref: 'Room'
 
     }],
+    id_yourProduct: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'YourProduct'
+    },
     cateloryRoom: {
         type: String,
         required: true, // bắt buộc

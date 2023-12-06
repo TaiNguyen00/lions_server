@@ -4,7 +4,7 @@ const RoomSchema = new mongoose.Schema({
     roomcode: {
         type: Number,
         required: true, // bắt buộc
-
+        unique: true
     },
     condition: {
         type: String,
@@ -27,12 +27,7 @@ const RoomSchema = new mongoose.Schema({
         ref: 'CateloryRoom'
     }
     ,
-    client_id: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Client'
-        }
-    ],
+
     name: {
         type: String,
         // required: true, // bắt buộc

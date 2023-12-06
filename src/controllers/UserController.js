@@ -35,9 +35,12 @@ export const deleteUser = async (req, res, next) => {
 }
 
 export const UpdateUserByPackage = async (req, res) => {
-  const { packageID } = req.body
+
+  const { packageID, idUser } = req.body
+  console.log(idUser);
+  const _id = idUser
   try {
-    const updateUserPackage = await User.findByIdAndUpdate(req.params.id, { $push: { id_package: packageID } }, { new: true })
+    const updateUserPackage = await User.findByIdAndUpdate(_id, { $push: { id_package: packageID } }, { new: true })
     res.status(200).json({
       message: "update success",
       updateUserPackage: updateUserPackage
@@ -56,12 +59,14 @@ export const createAccountManageForUser = async (req, res, next) => {
       // có thể tạo mới mk cách ngẫu nhiêu nếu muốn, truyền vào lenght của mk muốn có
       const randomPassword = generateRandomPassword(6)
 
+      console.log(randomPassword)
+      // package
       const newAccountForManage = await AccountManage.create({
         userID: existingUser._id,
-        package: existingUser.id_package._id,
-        username: username,
         yourProduct: yourProductID,
-        password: randomPassword
+        username: username,
+        package: existingUser.id_package,
+        password: randomPassword,
       })
       await User.findByIdAndUpdate(existingUser._id, { $addToSet: { account_manage: newAccountForManage._id } });
       return res.status(200).json({
@@ -93,7 +98,7 @@ export const getAccountsManage = async (req, res, next) => {
 export const getAccountById = async (req, res, next) => {
   try {
     const id = req.body._id
-    const accountManege = await AccountManage.findById(id);
+    const accountManege = await AccountManage.findById(id).populate("yourProduct")
     if (!accountManege) {
       return res.status(404).json({ message: 'Account  not found' });
     }

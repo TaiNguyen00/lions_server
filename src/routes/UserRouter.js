@@ -10,7 +10,7 @@ router.get("/", getAllUser);
 // router.get("/", getAllUser);
 router.put('/edit-user', editUser)
 router.delete('/delete/:id', VerifyUser, deleteUser)
-router.put('/update-package/:id', UpdateUserByPackage)
+router.put('/update-package', UpdateUserByPackage)
 
 // for manager 
 router.post('/create-account-management', createAccountManageForUser)

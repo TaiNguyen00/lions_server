@@ -10,12 +10,11 @@ export const getAllBillClient = async (req, res, next) => {
 }
 export const getBillClientById = async (req, res, next) => {
     try {
-        const BillClients = await BillClient.findById(req.params.id);
-
+        const id = req.body.id_yourProduct
+        const BillClients = await BillClient.find({ id_yourProduct: id }).populate("id_yourProduct");
         if (!BillClients) {
             return res.status(404).json({ message: 'Bill not found' });
         }
-
         return res.status(200).json(BillClients);
     } catch (err) {
         return res.status(500).json(err);

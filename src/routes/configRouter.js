@@ -17,15 +17,16 @@ import { VerifyAdmin } from "../middlewares/VerifyToken";
 
 // admin
 router.use("/user", userRouter)
-router.use("/package/", packageRouter)
-router.use("/room/", roomRouter)
-router.use("/staff/", staffRouter)
-router.use("/yourProduct/", YourProductRouter)
-router.use("/floor/", floorRouter)
+router.use("/package", packageRouter)
+router.use("/room", roomRouter)
+router.use("/staff", staffRouter)
+router.use("/yourProduct", YourProductRouter)
+router.use("/floor", floorRouter)
 router.use("/auth", authRouter)
 router.use("/payment", paymentRouter)
 router.use("/cateloryRoom", cateloryRoomRouter)
 router.use("/client", ClientRouter)
 router.use("/billClient", BillClientRouter)
+
 
 module.exports = router

@@ -1,18 +1,28 @@
 import Room from '../models/Room'
 import Package from '../models/Package'
-import floor from '../models/Foor'
+import floor from '../models/Floor'
 import CateloryRoom from '../models/CateloryRoom'
 export const getAllRoom = async (req, res, next) => {
     try {
         const rooms = await Room.find().populate('catelory_room  client_id');
-        return res.status(200).json({
-            errcode: 0,
-            rooms: rooms
-        })
+        return res.status(200).json(rooms)
     } catch (err) {
         console.log(err)
     }
 }
+
+export const getRoomById = async (req, res, next) => {
+    try {
+        const id = req.body.id_yourProduct
+        const roomById = await Room.find({ id_yourProduct: id }).populate("catelory_room  floor_id");
+        if (!roomById) {
+            return res.status(404).json({ message: 'Floor not found' });
+        }
+        return res.status(200).json(roomById);
+    } catch (err) {
+        return res.status(404).json(err);
+    }
+};
 export const addRoom = async (req, res, next) => {
     try {
         const roomCount = await Room.countDocuments();
@@ -24,7 +34,6 @@ export const addRoom = async (req, res, next) => {
 
         const newRoom = new Room(req.body)
         const saveRoom = await newRoom.save()
-
         const updateFloor = await floor.findByIdAndUpdate(newRoom.floor_id, {
             $addToSet: {
                 id_room: newRoom._id
