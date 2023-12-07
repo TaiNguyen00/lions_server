@@ -30,7 +30,6 @@ const YourProductSchema = new mongoose.Schema({
     package: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Package'
-
     },
     accountManagementID: {
         type: mongoose.Schema.Types.ObjectId,
