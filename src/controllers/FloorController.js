@@ -34,6 +34,8 @@ export const getFloorById = async (req, res, next) => {
         return res.status(404).json(err);
     }
 };
+
+
 export const addFloor = async (req, res, next) => {
     try {
         const newFloor = new floor(req.body)

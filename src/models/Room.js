@@ -4,7 +4,6 @@ const RoomSchema = new mongoose.Schema({
     roomcode: {
         type: Number,
         required: true, // bắt buộc
-        unique: true
     },
     condition: {
         type: String,

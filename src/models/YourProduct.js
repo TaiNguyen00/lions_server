@@ -28,7 +28,7 @@ const YourProductSchema = new mongoose.Schema({
         required: true, // bắt buộc
     },
     package: {
-        type:  mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Package'
 
     },

@@ -70,20 +70,27 @@ export const loginForAccountManage = async (req, res) => {
     //   return res.status(400).json("wrong username or password")
     // }
 
-    const access_token = jwt.sign(
+    // const isPasswordValid = bcrypt.compareSync(
+    //   req.body.password,
+    //   user.password
+    // );
+    // if (!isPasswordValid) {
+    //   return res.status(400).json("wrong username or password")
+    // }
+
+    const access_token_owner = jwt.sign(
       {
         id: user._id,
         role: user.role
       },
-      process.env.JWT_TOKEN_SECRET
+      process.env.JWT_TOKEN_SECRET_OWNER
     );
 
     return res
-      .cookie("access_token", access_token, {
+      .cookie("access_token_owner", access_token_owner, {
         httpOnly: true
       })
       .status(200).json({
-        access_token: access_token,
         message: "Login success",
         user: user
       })
@@ -93,6 +100,7 @@ export const loginForAccountManage = async (req, res) => {
     res.status(500).json(err);
 
   }
+
 }
 
 
@@ -104,15 +112,15 @@ export const loginForReception = async (req, res, next) => {
     if (!staff) {
       return res.status(401).json("wrong email or password");
     }
-    const access_token = jwt.sign(
+    const access_token_reception = jwt.sign(
       {
         id: staff._id,
         role: staff.role_staff
       },
-      process.env.JWT_TOKEN_SECRET
+      process.env.JWT_TOKEN_SECRET_RECEPTION
     );
     return res.
-      cookie("access_token", access_token, {
+      cookie("access_token_reception", access_token_reception, {
         httpOnly: true,
       })
       .status(200).json({
