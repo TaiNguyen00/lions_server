@@ -40,8 +40,8 @@ export const UpdateUserByPackage = async (req, res) => {
   console.log(idUser);
   const _id = idUser
   try {
-    await User.findByIdAndUpdate(_id, { $push: { id_package: packageID }, $set: req.body }, { new: true },)
-    const getUser = await User.findById(_id).populate("id_package")
+    const getUser = await User.findByIdAndUpdate(_id, { id_package: packageID }, { new: true },)
+    // const getUser = await User.findById(_id).populate("id_package")
     res.status(200).json({
       message: "update success",
       user: getUser
