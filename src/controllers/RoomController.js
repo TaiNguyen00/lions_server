@@ -14,7 +14,7 @@ export const getAllRoom = async (req, res, next) => {
 export const getRoomById = async (req, res, next) => {
     try {
         const id = req.body.id_yourProduct
-        const roomById = await Room.find({ id_yourProduct: id }).populate("catelory_room  floor_id");
+        const roomById = await Room.find({ id_yourProduct: id })
         if (!roomById) {
             return res.status(404).json({ message: 'Floor not found' });
         }

@@ -9,6 +9,10 @@ const RoomSchema = new mongoose.Schema({
         type: String,
         required: true, // bắt buộc
     },
+    id_yourProduct: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'YourProduct'
+    },
     packageID:
     {
         type: mongoose.Schema.Types.ObjectId,
