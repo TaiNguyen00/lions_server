@@ -24,6 +24,8 @@ export const registerUser = async (req, res, next) => {
     return res.status(500).json(err);
   }
 }
+
+
 export const loginUser = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email }).populate(

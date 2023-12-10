@@ -28,9 +28,7 @@ const RoomSchema = new mongoose.Schema({
     {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'CateloryRoom'
-    }
-    ,
-
+    },
     name: {
         type: String,
         // required: true, // bắt buộc

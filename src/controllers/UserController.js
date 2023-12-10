@@ -40,10 +40,11 @@ export const UpdateUserByPackage = async (req, res) => {
   console.log(idUser);
   const _id = idUser
   try {
-    const updateUserPackage = await User.findByIdAndUpdate(_id, { $push: { id_package: packageID } }, { new: true })
+    await User.findByIdAndUpdate(_id, { $push: { id_package: packageID }, $set: req.body }, { new: true },)
+    const getUser = await User.findById(_id).populate("id_package")
     res.status(200).json({
       message: "update success",
-      updateUserPackage: updateUserPackage
+      user: getUser
     })
   } catch (err) {
     res.status(500).json(err)
@@ -69,9 +70,10 @@ export const createAccountManageForUser = async (req, res, next) => {
         password: randomPassword,
       })
       await User.findByIdAndUpdate(existingUser._id, { $addToSet: { account_manage: newAccountForManage._id } });
+      const getID = await User.findById(existingUser._id).populate("id_package account_manage")
       return res.status(200).json({
         message: "A new account for manager created",
-        newAccountForManage: newAccountForManage
+        newAccountForManage: getID
       })
     } else {
       return res.status(205).json("User not found")
