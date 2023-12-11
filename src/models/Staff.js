@@ -1,9 +1,14 @@
 import mongoose from "mongoose";
 
 const StaffSchema = new mongoose.Schema({
-  id_product: {
+  yourProductID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "YourProduct",
+  },
+  packageID:
+  {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Package'
   },
   username: {
     type: String,
@@ -18,9 +23,7 @@ const StaffSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  sex: {
-    type: String,
-  },
+
   phone: {
     type: Number,
     required: true,

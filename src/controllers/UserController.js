@@ -40,8 +40,8 @@ export const UpdateUserByPackage = async (req, res) => {
   console.log(idUser);
   const _id = idUser
   try {
-    const getUser = await User.findByIdAndUpdate(_id, { id_package: packageID }, { new: true },)
-    // const getUser = await User.findById(_id).populate("id_package")
+    await User.findByIdAndUpdate(_id, { id_package: packageID }, { new: true },)
+    const getUser = await User.findById(_id).populate("id_package")
     res.status(200).json({
       message: "update success",
       user: getUser
@@ -100,7 +100,7 @@ export const getAccountsManage = async (req, res, next) => {
 export const getAccountById = async (req, res, next) => {
   try {
     const id = req.body._id
-    const accountManege = await AccountManage.findById(id).populate("yourProduct")
+    const accountManege = await AccountManage.findById(id).populate("yourProduct package")
     if (!accountManege) {
       return res.status(404).json({ message: 'Account  not found' });
     }

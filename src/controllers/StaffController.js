@@ -15,7 +15,6 @@ export const addStaff = async (req, res, next) => {
     try {
         const staffCount = await Staff.countDocuments();
         const packages = await Package.findById(req.body.packageID);
-        console.log(packages.quantity_staff);
         if (staffCount >= packages.quantity_staff) {
             return res.status(400).json("Ban khong the tao them nhan vien");
         }
