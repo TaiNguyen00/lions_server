@@ -9,7 +9,18 @@ export const getAllYourProduct = async (req, res, next) => {
         return res.status(500).json(err)
     }
 }
-
+export const getProductById = async (req, res, next) => {
+    try {
+        const id = req.body.accountManagementID
+        const productById = await YourProduct.find({ accountManagementID: id })
+        if (!productById) {
+            return res.status(404).json({ message: 'Floor not found' });
+        }
+        return res.status(200).json(productById);
+    } catch (err) {
+        return res.status(404).json(err);
+    }
+};
 // add Your product with AccountManager
 
 export const addYourProduct = async (req, res, next) => {

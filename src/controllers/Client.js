@@ -12,7 +12,8 @@ export const getAllClient = async (req, res, next) => {
 
 export const getClientById = async (req, res, next) => {
     try {
-        const Clients = await Client.findById(req.params.id);
+        const id = req.body.id_yourProduct
+        const Clients = await Client.find({ id_yourProduct: id });
 
         if (!Clients) {
             return res.status(404).json({ message: 'Category room not found' });
@@ -28,17 +29,6 @@ export const addClient = async (req, res, next) => {
     try {
         const newClient = new Client(req.body); // Use Client instead of Room
         const saveClient = await newClient.save();
-
-        const updateRoom = await Room.findByIdAndUpdate(newClient.id_room, {
-            $addToSet: {
-                client_id: newClient._id
-            }
-        });
-
-        if (!updateRoom) {
-            return res.status(404).json("update room in room not success");
-        }
-
         return res.status(200).json(saveClient);
     } catch (err) {
         return res.status(500).json(err);

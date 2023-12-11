@@ -1,5 +1,8 @@
 import Package from '../models/Package'
+
 import AccountManage from "../models/accountManagement"
+
+
 export const getAllPackage = async (req, res, next) => {
     try {
         const packageAll = await Package.find()
@@ -15,7 +18,6 @@ export const getPackageById = async (req, res, next) => {
         if (!packageById) {
             return res.status(404).json({ message: 'Package not found' });
         }
-
         return res.status(200).json(packageById);
     } catch (err) {
         return res.status(404).json(err);
@@ -34,7 +36,8 @@ export const addPackage = async (req, res, next) => {
 //
 export const editPackage = async (req, res, next) => {
     try {
-        const updatePackage = await Package.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
+        const id = req.body._id
+        const updatePackage = await Package.findByIdAndUpdate(id, { $set: req.body }, { new: true })
         res.status(200).json(updatePackage)
     } catch (err) {
         res.status(404).json(err)
@@ -49,7 +52,7 @@ export const editPackage = async (req, res, next) => {
 
 
 // cần thêm một bảng account control product
-// cần một api đăng nhập trang quản lí này. api đấy sẽ lấy giữ liệu từ account đã đk sản phẩm của nó. Chứa id của thằng đk, thông tin. 
+// cần một api đăng nhập trang quản lí này. api đấy sẽ lấy giữ liệu từ account đã đk sản phẩm của nó. Chứa id của thằng đk, thông tin.
 
 
 

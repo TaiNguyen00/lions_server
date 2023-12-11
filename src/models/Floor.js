@@ -9,13 +9,13 @@ const FoorSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Room'
     }],
-    title_foor: {
+    title_floor: {
         type: String,
         require: true
     },
     floor: {
         type: Number,
-        require: true
+        require: true,
     },
     title_second: {
         type: String,

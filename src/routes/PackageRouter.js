@@ -6,6 +6,6 @@ const packageRouter = Router()
 packageRouter.get('/getAll', getAllPackage)
 packageRouter.get('/getID/:id', getPackageById)
 packageRouter.post('/package-add', addPackage)
-packageRouter.put('/package-edit/:id', editPackage)
+packageRouter.put('/package-edit', editPackage)
 
 module.exports = packageRouter
