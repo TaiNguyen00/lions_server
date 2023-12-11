@@ -13,7 +13,6 @@ const StaffSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true, // bắt buộc
-    unique: true,
   },
   password: {
     type: Number,
@@ -35,7 +34,6 @@ const StaffSchema = new mongoose.Schema({
   codeID_staff: {
     type: String,
     required: true,
-    unique: true,
   },
 },
   { timestamps: true }
