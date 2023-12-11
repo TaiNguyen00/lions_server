@@ -62,18 +62,18 @@ export const createAccountManageForUser = async (req, res, next) => {
 
       console.log(randomPassword)
       // package
-      const newAccountForManage = await AccountManage.create({
+      const user = await AccountManage.create({
         userID: existingUser._id,
         yourProduct: yourProductID,
         username: username,
         package: existingUser.id_package,
         password: randomPassword,
       })
-      await User.findByIdAndUpdate(existingUser._id, { $addToSet: { account_manage: newAccountForManage._id } });
+      await User.findByIdAndUpdate(existingUser._id, { $addToSet: { account_manage: user._id } });
       const getID = await User.findById(existingUser._id).populate("id_package account_manage")
       return res.status(200).json({
         message: "A new account for manager created",
-        newAccountForManage: getID
+        user: getID
       })
     } else {
       return res.status(205).json("User not found")
