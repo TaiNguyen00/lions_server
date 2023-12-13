@@ -67,10 +67,9 @@ export const loginForAccountManage = async (req, res) => {
     if (!user) {
       return res.status(401).json("Khong co user");
     }
-
-    // if (!user.password) {
-    //   return res.status(400).json("wrong username or password")
-    // }
+    if (user.password !== req.body.password) {
+      return res.status(400).json("wrong password")
+    }
 
     // const isPasswordValid = bcrypt.compareSync(
     //   req.body.password,
@@ -114,6 +113,12 @@ export const loginForReception = async (req, res, next) => {
     if (!staff) {
       return res.status(401).json("wrong email or password");
     }
+    if (staff.password !== req.body.password) {
+      return res.status(401).json("wrong password");
+    }
+    if (staff.codeID_staff !== req.body.codeID_staff) {
+      return res.status(401).json("This is not your account");
+    }
     const access_token_reception = jwt.sign(
       {
         id: staff._id,
@@ -127,7 +132,7 @@ export const loginForReception = async (req, res, next) => {
       })
       .status(200).json({
         message: "Login success",
-        staff: staff
+        user: staff
       })
 
   } catch (err) {

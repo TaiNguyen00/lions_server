@@ -17,8 +17,9 @@ export const getAllUser = async (req, res, next) => {
 export const editUser = async (req, res, next) => {
   try {
     const id = req.body._id
-    const update = await User.findByIdAndUpdate(id, { $set: req.body }, { new: true })
-    return res.status(200).json(update)
+    await User.findByIdAndUpdate(id, { $set: req.body }, { new: true })
+    const user = await User.findById(id)
+    return res.status(200).json(user)
   } catch (err) {
     return res.status(500).json(err)
   }

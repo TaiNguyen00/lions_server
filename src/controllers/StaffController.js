@@ -17,7 +17,7 @@ export const addStaff = async (req, res, next) => {
         const staffCount = await Staff.countDocuments();
         const packages = await Package.findById(req.body.packageID);
         if (staffCount >= packages.quantity_staff) {
-            return res.status(400).json("Ban khong the tao them nhan vien");
+            return res.status(400).json({ massage: "Ban khong the tao them nhan vien" });
         }
 
         const newStaff = new Staff(req.body)
@@ -29,7 +29,7 @@ export const addStaff = async (req, res, next) => {
         })
 
         if (!updateYourProduct) {
-            return res.status(404).json("update statff is not success")
+            return res.status(404).json({ massage: "update statff is not success" })
         }
         return res.status(200).json({
             saveStaff: saveStaff,
@@ -38,6 +38,8 @@ export const addStaff = async (req, res, next) => {
         return res.status(500).json(err)
     }
 }
+
+
 export const editStaff = async (req, res, next) => {
     try {
         const id = req.body._id

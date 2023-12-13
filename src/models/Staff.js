@@ -15,7 +15,7 @@ const StaffSchema = new mongoose.Schema({
     required: true, // bắt buộc
   },
   password: {
-    type: Number,
+    type: String,
     required: true,
   },
   name: {
@@ -29,7 +29,8 @@ const StaffSchema = new mongoose.Schema({
   },
   role_staff: {
     type: String,
-    required: true,
+    default: "reception"
+
   },
   codeID_staff: {
     type: String,
