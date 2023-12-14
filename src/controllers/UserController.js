@@ -19,7 +19,10 @@ export const editUser = async (req, res, next) => {
     const id = req.body._id
     await User.findByIdAndUpdate(id, { $set: req.body }, { new: true })
     const user = await User.findById(id).populate("id_package account_manage")
-    return res.status(200).json(user)
+    return res.status(200).json({
+      message: "update user success",
+      user: user
+    })
   } catch (err) {
     return res.status(500).json(err)
   }
