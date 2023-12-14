@@ -5,6 +5,10 @@ const StaffSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "YourProduct",
   },
+  codeProduct: {
+    type: String,
+    required: true,
+  },
   packageID:
   {
     type: mongoose.Schema.Types.ObjectId,

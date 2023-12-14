@@ -11,8 +11,8 @@ export const getAllYourProduct = async (req, res, next) => {
 }
 export const getProductById = async (req, res, next) => {
     try {
-        const id = req.body.accountManagementID
-        const productById = await YourProduct.find({ accountManagementID: id })
+        const id = req.body._id
+        const productById = await YourProduct.findById(id)
         if (!productById) {
             return res.status(404).json({ message: 'Floor not found' });
         }

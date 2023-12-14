@@ -31,6 +31,10 @@ const YourProductSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Package'
     },
+    codeProduct: {
+        type: String,
+        required: true,
+    },
     accountManagementID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'accountManagement'

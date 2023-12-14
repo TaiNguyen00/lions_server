@@ -63,7 +63,7 @@ export const loginUser = async (req, res) => {
 // account manager
 export const loginForAccountManage = async (req, res) => {
   try {
-    const user = await AccountManage.findOne({ username: req.body.username })
+    const user = await AccountManage.findOne({ username: req.body.username }).populate("package")
     if (!user) {
       return res.status(401).json("Khong co user");
     }
@@ -109,16 +109,11 @@ export const loginForAccountManage = async (req, res) => {
 
 export const loginForReception = async (req, res, next) => {
   try {
-    const staff = await Staff.findOne({ username: req.body.username })
+    const staff = await Staff.findOne({ username: req.body.username, codeProduct: req.body.codeProduct }).populate("packageID")
     if (!staff) {
       return res.status(401).json("wrong email or password");
     }
-    if (staff.password !== req.body.password) {
-      return res.status(401).json("wrong password");
-    }
-    if (staff.codeID_staff !== req.body.codeID_staff) {
-      return res.status(401).json("This is not your account");
-    }
+
     const access_token_reception = jwt.sign(
       {
         id: staff._id,
@@ -132,7 +127,7 @@ export const loginForReception = async (req, res, next) => {
       })
       .status(200).json({
         message: "Login success",
-        user: staff
+        staff: staff
       })
 
   } catch (err) {
