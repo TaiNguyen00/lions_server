@@ -19,7 +19,6 @@ export const addStaff = async (req, res, next) => {
         if (staffCount >= packages.quantity_staff) {
             return res.status(400).json({ massage: "Ban khong the tao them nhan vien" });
         }
-
         const newStaff = new Staff(req.body)
         const saveStaff = await newStaff.save()
         const updateYourProduct = await YourProduct.findByIdAndUpdate(req.body.yourProductID, {
@@ -27,7 +26,6 @@ export const addStaff = async (req, res, next) => {
                 id_staff: newStaff._id
             }
         })
-
         if (!updateYourProduct) {
             return res.status(404).json({ massage: "update statff is not success" })
         }

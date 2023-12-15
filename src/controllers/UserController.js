@@ -66,6 +66,7 @@ export const createAccountManageForUser = async (req, res, next) => {
 
       console.log(randomPassword)
       // package
+
       const user = await AccountManage.create({
         userID: existingUser._id,
         yourProduct: yourProductID,
