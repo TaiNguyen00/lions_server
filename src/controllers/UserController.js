@@ -17,8 +17,12 @@ export const getAllUser = async (req, res, next) => {
 export const editUser = async (req, res, next) => {
   try {
     const id = req.body._id
-    const update = await User.findByIdAndUpdate(id, { $set: req.body }, { new: true })
-    return res.status(200).json(update)
+    await User.findByIdAndUpdate(id, { $set: req.body }, { new: true })
+    const user = await User.findById(id).populate("id_package account_manage")
+    return res.status(200).json({
+      message: "update user success",
+      user: user
+    })
   } catch (err) {
     return res.status(500).json(err)
   }
@@ -40,8 +44,8 @@ export const UpdateUserByPackage = async (req, res) => {
   console.log(idUser);
   const _id = idUser
   try {
-    const getUser = await User.findByIdAndUpdate(_id, { id_package: packageID }, { new: true },)
-    // const getUser = await User.findById(_id).populate("id_package")
+    await User.findByIdAndUpdate(_id, { id_package: packageID }, { new: true },)
+    const getUser = await User.findById(_id).populate("id_package")
     res.status(200).json({
       message: "update success",
       user: getUser
@@ -62,18 +66,19 @@ export const createAccountManageForUser = async (req, res, next) => {
 
       console.log(randomPassword)
       // package
-      const newAccountForManage = await AccountManage.create({
+
+      const user = await AccountManage.create({
         userID: existingUser._id,
         yourProduct: yourProductID,
         username: username,
         package: existingUser.id_package,
         password: randomPassword,
       })
-      await User.findByIdAndUpdate(existingUser._id, { $addToSet: { account_manage: newAccountForManage._id } });
+      await User.findByIdAndUpdate(existingUser._id, { $addToSet: { account_manage: user._id } });
       const getID = await User.findById(existingUser._id).populate("id_package account_manage")
       return res.status(200).json({
         message: "A new account for manager created",
-        newAccountForManage: getID
+        user: getID
       })
     } else {
       return res.status(205).json("User not found")
@@ -100,7 +105,7 @@ export const getAccountsManage = async (req, res, next) => {
 export const getAccountById = async (req, res, next) => {
   try {
     const id = req.body._id
-    const accountManege = await AccountManage.findById(id).populate("yourProduct")
+    const accountManege = await AccountManage.findById(id).populate("yourProduct package")
     if (!accountManege) {
       return res.status(404).json({ message: 'Account  not found' });
     }

@@ -63,14 +63,13 @@ export const loginUser = async (req, res) => {
 // account manager
 export const loginForAccountManage = async (req, res) => {
   try {
-    const user = await AccountManage.findOne({ username: req.body.username })
+    const user = await AccountManage.findOne({ username: req.body.username }).populate("package")
     if (!user) {
       return res.status(401).json("Khong co user");
     }
-
-    // if (!user.password) {
-    //   return res.status(400).json("wrong username or password")
-    // }
+    if (user.password !== req.body.password) {
+      return res.status(400).json("wrong password")
+    }
 
     // const isPasswordValid = bcrypt.compareSync(
     //   req.body.password,
@@ -110,10 +109,11 @@ export const loginForAccountManage = async (req, res) => {
 
 export const loginForReception = async (req, res, next) => {
   try {
-    const staff = await Staff.findOne({ username: req.body.username })
+    const staff = await Staff.findOne({ username: req.body.username, codeProduct: req.body.codeProduct }).populate("packageID")
     if (!staff) {
       return res.status(401).json("wrong email or password");
     }
+
     const access_token_reception = jwt.sign(
       {
         id: staff._id,
