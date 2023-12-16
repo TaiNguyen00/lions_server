@@ -29,7 +29,7 @@ export const addRoom = async (req, res, next) => {
         const roomCount = await Room.countDocuments({ id_yourProduct: id });
         const packages = await Package.findById(req.body.packageID);
         if (roomCount >= packages.quantity_room) {
-            return res.status(400).json('Bạn không thể tạo thêm phòng, đã đạt giới hạn');
+            return res.status(400).json({ message: 'Bạn không thể tạo thêm phòng, đã đạt giới hạn' });
         }
 
         const newRoom = new Room(req.body)
