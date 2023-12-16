@@ -25,7 +25,6 @@ export const getProductById = async (req, res, next) => {
 
 export const addYourProduct = async (req, res, next) => {
     try {
-
         const newYourProduct = new YourProduct(req.body)
         const saveYourProduct = await newYourProduct.save()
         res.status(200).json(saveYourProduct)
@@ -33,6 +32,7 @@ export const addYourProduct = async (req, res, next) => {
         res.status(404).json(err)
     }
 }
+
 export const updateYourProduct = async (req, res, next) => {
     try {
         const updatedYourProduct = await YourProduct.findByIdAndUpdate(

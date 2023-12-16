@@ -14,10 +14,12 @@ export const getAllStaff = async (req, res, next) => {
 }
 export const addStaff = async (req, res, next) => {
     try {
-        const staffCount = await Staff.countDocuments();
+        const id = req.body.yourProductID
+        // const staffs = await Staff.find({ yourProductID: id })
+        const staffCount = await Staff.countDocuments({ yourProductID: id });
         const packages = await Package.findById(req.body.packageID);
         if (staffCount >= packages.quantity_staff) {
-            return res.status(400).json({ massage: "Ban khong the tao them nhan vien" });
+            return res.status(400).json({ massage: "Bạn không thể tạo thêm nhân viên" });
         }
         const newStaff = new Staff(req.body)
         const saveStaff = await newStaff.save()
