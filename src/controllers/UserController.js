@@ -35,16 +35,35 @@ export const deleteUser = async (req, res, next) => {
   }
 }
 
+// update package when buy package
 export const UpdateUserByPackage = async (req, res) => {
-  const packageID = req.body._id
+  const {idUser,packageID} = req.body
+  console.log(idUser, packageID)
   try {
-    const updateUserPackage = await User.findByIdAndUpdate(req.params.id, {$push: {id_package: packageID}}, {new: true})
+    const updateUserPackage = await User.findByIdAndUpdate(idUser,{id_package: packageID}, {new: true}) // push chỉ dùng cho trường hợp id package là một mảng
     res.status(200).json({
       message: "update success",
       updateUserPackage: updateUserPackage
     })
   } catch (err) {
     res.status(500).json(err)
+  }
+}
+
+export async function updatePackageForUserPaypal (data) { //data = req.body
+  const {userID, packageID} = data
+
+  const updatedUser = await User.findByIdAndUpdate(userID, {id_package: packageID}, {new: true})
+
+  if (updatedUser) {
+    return res.status(200).json({
+      message: "cập nhật gói của người dùng thành công",
+      updatedUser: updatedUser
+    })
+  } else {
+    return res.status(200).json({
+      message: "cập nhật gói người dùng thất bại"
+    })
   }
 }
 

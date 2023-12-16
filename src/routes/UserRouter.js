@@ -6,11 +6,13 @@ const router = express.Router();
 
 
 // test API
-router.get("/", VerifyAdmin, getAllUser);
+router.get("/get-all", getAllUser);
 // router.get("/", getAllUser);
 router.put('/edit-user/:id', VerifyUser, editUser)
 router.delete('/delete/:id', VerifyUser, deleteUser)
-router.put('/update-package/:id', VerifyUser, UpdateUserByPackage)
+
+// updatePackage when buy package
+router.put('/update-package', UpdateUserByPackage)
 
 // for manager 
 router.post('/create-account-management', createAccountManageForUser)
