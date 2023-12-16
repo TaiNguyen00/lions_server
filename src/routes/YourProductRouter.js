@@ -3,7 +3,7 @@ import { addYourProduct, deleteYourProduct, getAllYourProduct, getProductById, u
 
 const YourProductRouter = Router()
 
-YourProductRouter.get('/', getAllYourProduct)
+YourProductRouter.get('/getAll', getAllYourProduct)
 YourProductRouter.post('/getID', getProductById)
 YourProductRouter.post('/add-your-product', addYourProduct)
 YourProductRouter.put('/edit-your-product', updateYourProduct)

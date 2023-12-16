@@ -63,7 +63,7 @@ export const loginUser = async (req, res) => {
 // account manager
 export const loginForAccountManage = async (req, res) => {
   try {
-    const user = await AccountManage.findOne({ username: req.body.username }).populate("package")
+    const user = await AccountManage.findOne({ username: req.body.username, password: req.body.password }).populate("package")
     if (!user) {
       return res.status(401).json("Khong co user");
     }
