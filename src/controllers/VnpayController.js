@@ -1,7 +1,12 @@
+import moment from "moment";
+let packageID;
 
-export const createPaymentVNPay = (req, res, next) => {
+
+
+export const createPaymentVNPay = (req, res) => {
+ try {
   process.env.TZ = "Asia/Ho_Chi_Minh";
-
+  //VNBANK for bankcode
   let date = new Date();
   let createDate = moment(date).format("YYYYMMDDHHmmss");
 
@@ -21,14 +26,16 @@ export const createPaymentVNPay = (req, res, next) => {
 
 
   let orderId = moment(date).format("DDHHmmss");
+
+
   // amount lấy từ client số tiền
-  let amount = req.body.amount;
+  let amount = req.body.price;
+  
   // bankcode bắt buộc phải có
   let bankCode = req.body.bankCode;
 
   // userID
-  const userID = req.body.userID
-
+  const userID = req.body.idUser
 
   // language, vn or en
   let locale = req.body.language;
@@ -59,13 +66,17 @@ export const createPaymentVNPay = (req, res, next) => {
 
   let querystring = require("qs");
   let signData = querystring.stringify(vnp_Params, { encode: false });
-  let crypto = require("crypto");
+  let crypto = require("node:crypto");
   let hmac = crypto.createHmac("sha512", secretKey);
   let signed = hmac.update(new Buffer(signData, "utf-8")).digest("hex");
   vnp_Params["vnp_SecureHash"] = signed;
   vnpUrl += "?" + querystring.stringify(vnp_Params, { encode: false });
 
   res.redirect(vnpUrl);
+} catch (err) {
+  console.log(err)
+  res.status(500).json(err)
+ }
 }
 // tạm thời bỏ qua hàm này
 export const vnpReturn = (req, res, next) => {
@@ -182,6 +193,7 @@ function sortObject(obj) {
 async function handleIPN(params) {
   // Thực hiện xử lý dựa trên thông báo IPN
   console.log("Received IPN:", params);
+  console.log("packageID from handleIPN", packageID)
 
   // Ví dụ: Cập nhật trạng thái đơn hàng trong cơ sở dữ liệu
   const userID = params["vnp_OrderInfo"];

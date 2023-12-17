@@ -5,7 +5,12 @@ const CateloryRoomSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Room'
 
-    }], cateloryRoom: {
+    }],
+    id_yourProduct: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'YourProduct'
+    },
+    cateloryRoom: {
         type: String,
         required: true, // bắt buộc
     },
@@ -13,7 +18,7 @@ const CateloryRoomSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    priceMonth: {
+    priceHour: {
         type: Number,
         required: true
     },

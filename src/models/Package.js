@@ -2,7 +2,7 @@ import mongoose from "mongoose"
 // gom id_option room, id_optionstaff vào bảng package
 const PackageSchema = new mongoose.Schema({
     code_package: {
-        type: Number,
+        type: String,
         required: true, // bắt buộc
 
     },

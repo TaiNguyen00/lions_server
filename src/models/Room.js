@@ -4,11 +4,14 @@ const RoomSchema = new mongoose.Schema({
     roomcode: {
         type: Number,
         required: true, // bắt buộc
-
     },
     condition: {
         type: String,
         required: true, // bắt buộc
+    },
+    id_yourProduct: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'YourProduct'
     },
     packageID:
     {
@@ -25,14 +28,7 @@ const RoomSchema = new mongoose.Schema({
     {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'CateloryRoom'
-    }
-    ,
-    client_id: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Client'
-        }
-    ],
+    },
     name: {
         type: String,
         // required: true, // bắt buộc
@@ -70,6 +66,12 @@ const RoomSchema = new mongoose.Schema({
     dateExpiration: {
         type: Date,
         // require: true
+    },
+    intendPrice: {
+        type: Number
+    },
+    intendTime: {
+        type: Number
     }
 
 }, { timestamps: true })

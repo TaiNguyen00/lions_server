@@ -14,13 +14,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true, // bắt buộc
   },
-  middle_name: {
-    type: String,
-  },
   username: {
     type: String,
     required: true,
-    unique: true
+    unique: true 
   },
   email: {
     type: String,
@@ -31,16 +28,12 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  avatar: {
-    type: String,
-  },
+
   phone_number: {
     type: Number,
 
   },
-  token_o2h: {
-    type: String,
-  },
+
   role: {
     type: Number,
     default: 0

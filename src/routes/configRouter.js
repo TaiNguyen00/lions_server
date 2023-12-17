@@ -13,6 +13,8 @@ import ClientRouter from "./ClientRouter"
 import paypalRouter from "./PaypalRouter"
 
 import VNpayRouter from "./VnPayRouter"
+
+import BillClientRouter from "./BillClientRouter"
 const router = Router()
 
 
@@ -26,6 +28,7 @@ router.use("/auth", authRouter)
 router.use("/payment", paymentRouter)
 router.use("/cateloryRoom", cateloryRoomRouter)
 router.use("/client", ClientRouter)
+router.use("/billClient", BillClientRouter)
 
 router.use('/paypal', paypalRouter)
 

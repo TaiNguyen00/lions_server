@@ -1,29 +1,34 @@
 import mongoose from "mongoose";
 
-const accountManagementSchema = new mongoose.Schema(
+const accountManagementSchema = new mongoose.Schema({
+  userID:
   {
-    userID: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
-    yourProduct: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "YourProduct",
-    },
-    username: {
-      type: String,
-      require: true,
-      unique: true,
-    },
-    role: {
-      type: String,
-      default: "owner"
-    },
-    password: {
-      type: String,
-      require: true,
-    },
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
   },
+  package: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Package'
+  },
+  yourProduct:
+  {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'YourProduct'
+  },
+  username: {
+    type: String,
+    require: true,
+    unique: true,
+  },
+  role: {
+    type: String,
+    default: "owner"
+  },
+  password: {
+    type: String,
+    require: true,
+  },
+},
   { timestamps: true }
 );
 
