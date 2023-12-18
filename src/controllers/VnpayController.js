@@ -1,6 +1,8 @@
 import moment from "moment";
 let packageID;
 
+import { UpdateUserByPackageByVNP } from "./UserController";
+import { createBillBuyPackage } from "./BillControllers";
 
 
 export const createPaymentVNPay = (req, res) => {
@@ -37,6 +39,8 @@ export const createPaymentVNPay = (req, res) => {
   // userID
   const userID = req.body.idUser
 
+  packageID = req.body.packageID
+
   // language, vn or en
   let locale = req.body.language;
   if (locale === null || locale === "") {
@@ -72,7 +76,7 @@ export const createPaymentVNPay = (req, res) => {
   vnp_Params["vnp_SecureHash"] = signed;
   vnpUrl += "?" + querystring.stringify(vnp_Params, { encode: false });
 
-  res.redirect(vnpUrl);
+  res.status(200).json({ redirectURL: vnpUrl });
 } catch (err) {
   console.log(err)
   res.status(500).json(err)
@@ -125,7 +129,7 @@ export const VNPayIPN = async (req, res,next) => {
   let secretKey = process.env.vnp_HashSecret;
   let querystring = require("qs");
   let signData = querystring.stringify(vnp_Params, { encode: false });
-  let crypto = require("crypto");
+  let crypto = require('node:crypto');
   let hmac = crypto.createHmac("sha512", secretKey);
   let signed = hmac.update(new Buffer(signData, "utf-8")).digest("hex");
 
@@ -145,15 +149,20 @@ export const VNPayIPN = async (req, res,next) => {
             //thanh cong
             //paymentStatus = '1'
             // Ở đây cập nhật trạng thái giao dịch thanh toán thành công vào CSDL của bạn
-            handleIPN(vnp_Params)
-            res.status(200).json({ RspCode: "00", Message: "Success cập nhật" });
+              
+            const userID = vnp_Params["vnp_OrderInfo"]
+            if (userID && packageID) {
+              await UpdateUserByPackageByVNP(userID, packageID)
+              await createBillBuyPackage(userID, packageID)
+              res.redirect("http://127.0.0.1:3000/payment-success")
+            }  
+
+            
           } else {
             //that bai
             //paymentStatus = '2'
-            const checkStep = handleIPN(vnp_Params)
-            if (checkStep) {
-              res.status(200).json({ RspCode: "00", Message: "Success thất bại" });
-            }
+            // const checkStep = handleIPN(vnp_Params)
+            res.redirect("http://127.0.0.1:3000/payment-failure")
           }
         } else {
           res
@@ -190,18 +199,12 @@ function sortObject(obj) {
   return sorted;
 }
 
-async function handleIPN(params) {
-  // Thực hiện xử lý dựa trên thông báo IPN
-  console.log("Received IPN:", params);
-  console.log("packageID from handleIPN", packageID)
-
+async function handleIPN(params, res) {
+  
   // Ví dụ: Cập nhật trạng thái đơn hàng trong cơ sở dữ liệu
   const userID = params["vnp_OrderInfo"];
-  const paymentStatus = params["vnp_ResponseCode"];
- 
   if (userID) {
-    await console.log("userID:", userID)
+    await UpdateUserByPackage(userID, packageID, res)
   }
-  // Thực hiện các bước cập nhật trạng thái trong cơ sở dữ liệu của bạn
 
 }
