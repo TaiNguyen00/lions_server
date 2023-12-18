@@ -68,14 +68,31 @@ export const addRoom = async (req, res, next) => {
     }
 }
 
+export const editRoomStatus = async (req, res, next) => {
+    try {
+        const id = req.body._id
+        const updateRoom = await Room.findByIdAndUpdate(id, { $set: req.body }, { new: true })
+        res.status(200).json(updateRoom)
+    } catch (err) {
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
 export const editRoom = async (req, res, next) => {
     try {
         const id = req.body._id
+        // tầng cũ và tầng mới
         const newFloorId = req.body.floor_id;
+        const oldFloorRoom = req.body.old_floor_id
+        // end
+        // loại cũ và loại mới 
+        const newCateloryId = req.body.catelory_room;
+        const oldCateloryId = req.body.old_catelory_id
+        // end 
         const updateRoom = await Room.findByIdAndUpdate(id, { $set: req.body }, { new: true })
-        // xoa du liệu phòng trong tầng cũ
+        // xoa du liệu phòng trong tầng 
         const updateFloorOld = await floor.findByIdAndUpdate(
-            updateRoom.floor_id,
+            oldFloorRoom,
             {
                 $pull: {
                     id_room: updateRoom._id,
@@ -83,21 +100,37 @@ export const editRoom = async (req, res, next) => {
             }
         );
         // end 
-        // thêm phòng vao tầng mới 
-        const updateFloorNew = await floor.findByIdAndUpdate(
-            newFloorId,
+        // xóa phòng khỏi loại cũ 
+        const updateCateloryOld = await CateloryRoom.findByIdAndUpdate(
+            oldCateloryId,
             {
-                $addToSet: {
+                $pull: {
                     id_room: updateRoom._id,
                 },
             }
         );
-        // end
-        if (!updateFloorOld || !updateFloorNew) {
-            res.status(404).json({
-                message: "Cập nhật thất bại "
+        // end 
+        // thêm phòng vào tầng mới 
+        if (updateFloorOld && updateCateloryOld) {
+            await floor.findByIdAndUpdate(
+                newFloorId,
+                {
+                    $addToSet: {
+                        id_room: updateRoom._id,
+                    },
+                }
+            );
+            await CateloryRoom.findByIdAndUpdate(
+                newCateloryId,
+                {
+                    $addToSet: {
+                        id_room: updateRoom._id,
+                    },
+                }
+            );
+            return res.status(200).json({
+                message: "Update succes new floor"
             })
-
         }
         res.status(200).json(updateRoom)
     } catch (err) {
