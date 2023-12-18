@@ -1,87 +1,84 @@
 import moment from "moment";
 let packageID;
 
-import { UpdateUserByPackageByVNP } from "./UserController";
-import { createBillBuyPackage } from "./BillControllers";
+import axios from "axios";
 
+import { UpdateUserByPackageByVNP } from "./UserController";
 
 export const createPaymentVNPay = (req, res) => {
- try {
-  process.env.TZ = "Asia/Ho_Chi_Minh";
-  //VNBANK for bankcode
-  let date = new Date();
-  let createDate = moment(date).format("YYYYMMDDHHmmss");
+  try {
+    process.env.TZ = "Asia/Ho_Chi_Minh";
+    //VNBANK for bankcode
+    let date = new Date();
+    let createDate = moment(date).format("YYYYMMDDHHmmss");
 
-  let ipAddr =
-    req.headers["x-forwarded-for"] ||
-    req.connection.remoteAddress ||
-    req.socket.remoteAddress ||
-    req.connection.socket.remoteAddress;
+    let ipAddr =
+      req.headers["x-forwarded-for"] ||
+      req.connection.remoteAddress ||
+      req.socket.remoteAddress ||
+      req.connection.socket.remoteAddress;
 
-  // let config = require("config");
+    // let config = require("config");
 
-  let tmnCode = process.env.vnp_TmnCode;
-  let secretKey = process.env.vnp_HashSecret;
-  let vnpUrl = process.env.vnp_Url;
-  let returnUrl = process.env.vnp_ReturnUrl;
+    let tmnCode = process.env.vnp_TmnCode;
+    let secretKey = process.env.vnp_HashSecret;
+    let vnpUrl = process.env.vnp_Url;
+    let returnUrl = process.env.vnp_ReturnUrl;
 
+    let orderId = moment(date).format("DDHHmmss");
 
+    // amount lấy từ client số tiền
+    let amount = req.body.price;
 
-  let orderId = moment(date).format("DDHHmmss");
+    // bankcode bắt buộc phải có
+    let bankCode = req.body.bankCode;
 
+    // userID
+    const userID = req.body.idUser;
 
-  // amount lấy từ client số tiền
-  let amount = req.body.price;
-  
-  // bankcode bắt buộc phải có
-  let bankCode = req.body.bankCode;
+    packageID = req.body.packageID;
 
-  // userID
-  const userID = req.body.idUser
+    // language, vn or en
+    let locale = req.body.language;
+    if (locale === null || locale === "") {
+      locale = "vn";
+    }
+    let currCode = "VND";
+    let vnp_Params = {};
+    vnp_Params["vnp_Version"] = "2.1.0";
+    vnp_Params["vnp_Command"] = "pay";
+    vnp_Params["vnp_TmnCode"] = tmnCode;
+    vnp_Params["vnp_Locale"] = locale;
+    vnp_Params["vnp_CurrCode"] = currCode;
+    vnp_Params["vnp_TxnRef"] = orderId;
+    vnp_Params["vnp_OrderInfo"] = userID;
+    vnp_Params["vnp_OrderType"] = "other";
+    vnp_Params["vnp_Amount"] = amount * 100;
+    vnp_Params["vnp_ReturnUrl"] = returnUrl;
+    vnp_Params["vnp_IpAddr"] = ipAddr;
+    vnp_Params["vnp_CreateDate"] = createDate;
 
-  packageID = req.body.packageID
+    // bắt buộc phải có bankCode, value =VNPAYQR,VNBANK,INTCARD
+    if (bankCode !== null && bankCode !== "") {
+      vnp_Params["vnp_BankCode"] = bankCode;
+    }
 
-  // language, vn or en
-  let locale = req.body.language;
-  if (locale === null || locale === "") {
-    locale = "vn";
+    vnp_Params = sortObject(vnp_Params);
+
+    let querystring = require("qs");
+    let signData = querystring.stringify(vnp_Params, { encode: false });
+    let crypto = require("node:crypto");
+    let hmac = crypto.createHmac("sha512", secretKey);
+    let signed = hmac.update(new Buffer(signData, "utf-8")).digest("hex");
+    vnp_Params["vnp_SecureHash"] = signed;
+    vnpUrl += "?" + querystring.stringify(vnp_Params, { encode: false });
+
+    res.status(200).json({ redirectURL: vnpUrl });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
   }
-  let currCode = "VND";
-  let vnp_Params = {};
-  vnp_Params["vnp_Version"] = "2.1.0";
-  vnp_Params["vnp_Command"] = "pay";
-  vnp_Params["vnp_TmnCode"] = tmnCode;
-  vnp_Params["vnp_Locale"] = locale;
-  vnp_Params["vnp_CurrCode"] = currCode;
-  vnp_Params["vnp_TxnRef"] = orderId;
-  vnp_Params["vnp_OrderInfo"] = userID;
-  vnp_Params["vnp_OrderType"] = "other";
-  vnp_Params["vnp_Amount"] = amount * 100;
-  vnp_Params["vnp_ReturnUrl"] = returnUrl;
-  vnp_Params["vnp_IpAddr"] = ipAddr;
-  vnp_Params["vnp_CreateDate"] = createDate;
-
-  // bắt buộc phải có bankCode, value =VNPAYQR,VNBANK,INTCARD
-  if (bankCode !== null && bankCode !== "") {
-    vnp_Params["vnp_BankCode"] = bankCode;
-  }
-
-  vnp_Params = sortObject(vnp_Params);
-
-  let querystring = require("qs");
-  let signData = querystring.stringify(vnp_Params, { encode: false });
-  let crypto = require("node:crypto");
-  let hmac = crypto.createHmac("sha512", secretKey);
-  let signed = hmac.update(new Buffer(signData, "utf-8")).digest("hex");
-  vnp_Params["vnp_SecureHash"] = signed;
-  vnpUrl += "?" + querystring.stringify(vnp_Params, { encode: false });
-
-  res.status(200).json({ redirectURL: vnpUrl });
-} catch (err) {
-  console.log(err)
-  res.status(500).json(err)
- }
-}
+};
 // tạm thời bỏ qua hàm này
 export const vnpReturn = (req, res, next) => {
   let vnp_Params = req.query;
@@ -108,12 +105,11 @@ export const vnpReturn = (req, res, next) => {
   } else {
     res.render("success", { code: "97" });
   }
-}
+};
 
 
 // đây là bước cuối cùng
-export const VNPayIPN = async (req, res,next) => {
-
+export const VNPayIPN = async (req, res, next) => {
   // lấy req.quere từ đâu
   let vnp_Params = req.query;
   let secureHash = vnp_Params["vnp_SecureHash"];
@@ -129,7 +125,7 @@ export const VNPayIPN = async (req, res,next) => {
   let secretKey = process.env.vnp_HashSecret;
   let querystring = require("qs");
   let signData = querystring.stringify(vnp_Params, { encode: false });
-  let crypto = require('node:crypto');
+  let crypto = require("node:crypto");
   let hmac = crypto.createHmac("sha512", secretKey);
   let signed = hmac.update(new Buffer(signData, "utf-8")).digest("hex");
 
@@ -149,28 +145,23 @@ export const VNPayIPN = async (req, res,next) => {
             //thanh cong
             //paymentStatus = '1'
             // Ở đây cập nhật trạng thái giao dịch thanh toán thành công vào CSDL của bạn
-              
-            const userID = vnp_Params["vnp_OrderInfo"]
+
+            const userID = vnp_Params["vnp_OrderInfo"];
             if (userID && packageID) {
               await UpdateUserByPackageByVNP(userID, packageID)
-              await createBillBuyPackage(userID, packageID)
               res.redirect("http://127.0.0.1:3000/payment-success")
-            }  
-
-            
+            }
           } else {
             //that bai
             //paymentStatus = '2'
             // const checkStep = handleIPN(vnp_Params)
-            res.redirect("http://127.0.0.1:3000/payment-failure")
+            res.redirect("http://127.0.0.1:3000/payment-failure");
           }
         } else {
-          res
-            .status(200)
-            .json({
-              RspCode: "02",
-              Message: "This order has been updated to the payment status",
-            });
+          res.status(200).json({
+            RspCode: "02",
+            Message: "This order has been updated to the payment status",
+          });
         }
       } else {
         res.status(200).json({ RspCode: "04", Message: "Amount invalid" });
@@ -181,7 +172,7 @@ export const VNPayIPN = async (req, res,next) => {
   } else {
     res.status(200).json({ RspCode: "97", Message: "Checksum failed" });
   }
-}
+};
 
 function sortObject(obj) {
   let sorted = {};
@@ -200,11 +191,9 @@ function sortObject(obj) {
 }
 
 async function handleIPN(params, res) {
-  
   // Ví dụ: Cập nhật trạng thái đơn hàng trong cơ sở dữ liệu
   const userID = params["vnp_OrderInfo"];
   if (userID) {
-    await UpdateUserByPackage(userID, packageID, res)
+    await UpdateUserByPackage(userID, packageID, res);
   }
-
 }

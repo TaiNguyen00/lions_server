@@ -42,8 +42,6 @@ export const deleteUser = async (req, res, next) => {
 export const UpdateUserByPackageByVNP = async (userID, packageID,res) => {
   try {
     const updatedUser =  await User.findByIdAndUpdate(userID, { id_package: packageID }, { new: true },)
-   
-     
     return { user: updatedUser}
 
   } catch (err) {

@@ -53,15 +53,55 @@ export const addRoom = async (req, res, next) => {
     }
 }
 
+// export const editRoom = async (req, res, next) => {
+//     try {
+//         const id = req.body._id
+//         const updateRoom = await Room.findByIdAndUpdate(id, { $set: req.body }, { new: true })
+//         res.status(200).json(updateRoom)
+//     } catch (err) {
+//         res.status(500).json(err)
+//     }
+// }
+
 export const editRoom = async (req, res, next) => {
     try {
-        const id = req.body._id
-        const updateRoom = await Room.findByIdAndUpdate(id, { $set: req.body }, { new: true })
+
+        const idRoom = req.body._id
+        const newFloorId = req.body.floor_id; // tầng cũ
+
+        const updateRoom = await Room.findByIdAndUpdate(idRoom, { $set: req.body }, { new: true })
+        // xoa du liệu phòng trong tầng cũ
+        const updateFloorOld = await floor.findByIdAndUpdate(
+            updateRoom.floor_id,
+            {
+                $pull: {
+                    id_room: updateRoom._id,
+                },
+            }
+        );
+        // end 
+        // thêm phòng vao tầng mới 
+        const updateFloorNew = await floor.findByIdAndUpdate(
+            newFloorId,
+            {
+                $addToSet: {
+                    id_room: updateRoom._id,
+                },
+            }
+        );
+        // end
+        if (!updateFloorOld || !updateFloorNew) {
+            res.status(404).json({
+                message: "Cập nhật thất bại "
+            })
+
+        }
         res.status(200).json(updateRoom)
     } catch (err) {
-        res.status(500).json(err)
+        return res.status(500).json({ error: 'Internal Server Error' });
     }
 }
+
 export const deleteRoom = async (req, res, next) => {
     try {
         const id = req.body._id
