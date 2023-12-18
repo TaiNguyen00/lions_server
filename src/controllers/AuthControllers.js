@@ -109,7 +109,7 @@ export const loginForAccountManage = async (req, res) => {
 
 export const loginForReception = async (req, res, next) => {
   try {
-    const staff = await Staff.findOne({ username: req.body.username, codeProduct: req.body.codeProduct }).populate("packageID")
+    const staff = await Staff.findOne({ username: req.body.username, codeProduct: req.body.codeProduct }).populate("package")
     if (!staff) {
       return res.status(401).json("wrong email or password");
     }
@@ -127,7 +127,7 @@ export const loginForReception = async (req, res, next) => {
       })
       .status(200).json({
         message: "Login success",
-        staff: staff
+        user: staff
       })
 
   } catch (err) {
