@@ -149,7 +149,11 @@ export const VNPayIPN = async (req, res, next) => {
 
             const userID = vnp_Params["vnp_OrderInfo"];
             if (userID && packageID) {
-              await UpdateUserByPackageByVNP(userID, packageID)
+
+              const { user } = await UpdateUserByPackageByVNP(userID, packageID)
+              if (user) {
+                await createBillBuyPackage(userID, packageID)
+              }
               res.redirect("http://localhost:3000/payment-success")
             }
           } else {

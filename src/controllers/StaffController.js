@@ -5,8 +5,8 @@ import YourProduct from '../models/YourProduct'
 
 export const getAllStaff = async (req, res, next) => {
     try {
-        const id = req.body.yourProductID
-        const staffs = await Staff.find({ yourProductID: id })
+        const id = req.body.yourProduct
+        const staffs = await Staff.find({ yourProduct: id })
         return res.status(200).json(staffs)
     } catch (err) {
         console.log(err)

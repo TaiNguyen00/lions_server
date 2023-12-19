@@ -22,7 +22,7 @@ const accountManagementSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    default: "owner"
+
   },
   password: {
     type: String,
