@@ -70,8 +70,12 @@ export const addRoom = async (req, res, next) => {
 
 export const editRoomStatus = async (req, res, next) => {
     try {
-        const id = req.body._id
-        const updateRoom = await Room.findByIdAndUpdate(id, { $set: req.body }, { new: true })
+
+        const idRoom = req.body._id
+
+        const updateRoom = await Room.findByIdAndUpdate(idRoom, { $set: req.body }, { new: true })
+        // xoa du liệu phòng trong tầng cũ
+
         res.status(200).json(updateRoom)
     } catch (err) {
         return res.status(500).json({ error: 'Internal Server Error' });
@@ -137,6 +141,7 @@ export const editRoom = async (req, res, next) => {
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 }
+
 export const deleteRoom = async (req, res, next) => {
     try {
         const id = req.body._id

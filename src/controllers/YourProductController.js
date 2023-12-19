@@ -22,7 +22,7 @@ export const getProductById = async (req, res, next) => {
     }
 };
 // add Your product with AccountManager
-
+// bỏ 
 export const addYourProduct = async (req, res, next) => {
     try {
         const newYourProduct = new YourProduct(req.body)
