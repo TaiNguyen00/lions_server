@@ -14,12 +14,13 @@ export const getAllBill = async (req, res) => {
 
 export const createBillBuyPackage = async (userID, packageID) => {
   try {
-    const newBill = new Bill({userID, packageID})
+    const newBill = new Bill({id_user: userID, id_package: packageID})
     
     await newBill.save()
     
     return newBill;
   } catch (err) {
     console.log(err)
+    throw new Error('Failed to create bill for package purchase')
   }
 }

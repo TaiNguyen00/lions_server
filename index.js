@@ -31,6 +31,7 @@ app.use(express.json())
 app.use('/api/v1', router)
 
 
+
 app.listen(PORT, () => {
   connectToDB()
   console.log(`At the port: http://localhost:${PORT}`)
