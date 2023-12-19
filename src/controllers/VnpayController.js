@@ -4,6 +4,7 @@ let packageID;
 import axios from "axios";
 
 import { UpdateUserByPackageByVNP } from "./UserController";
+import { createBillBuyPackage } from "./BillControllers";
 
 export const createPaymentVNPay = (req, res) => {
   try {
@@ -148,8 +149,12 @@ export const VNPayIPN = async (req, res, next) => {
 
             const userID = vnp_Params["vnp_OrderInfo"];
             if (userID && packageID) {
-              await UpdateUserByPackageByVNP(userID, packageID)
-              res.redirect("http://127.0.0.1:3000/payment-success")
+              const {user} = await UpdateUserByPackageByVNP(userID, packageID)
+              console.log("updated user", user)
+              if (user) {
+                await createBillBuyPackage(userID, packageID)
+              }
+              res.redirect("http://127.0.0.1:3000/payment-success");
             }
           } else {
             //that bai
