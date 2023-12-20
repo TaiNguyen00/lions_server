@@ -20,6 +20,13 @@ const accountManagementSchema = new mongoose.Schema({
     require: true,
     unique: true,
   },
+  name: {
+    type: String,
+  },
+
+  phone: {
+    type: Number,
+  },
   role: {
     type: String,
 

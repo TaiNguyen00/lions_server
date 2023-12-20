@@ -64,21 +64,13 @@ export const loginUser = async (req, res) => {
 export const loginForAccountManage = async (req, res) => {
   try {
     const user = await AccountManage.findOne({ username: req.body.username, password: req.body.password }).populate("package")
-    if (!user) {
-      return res.status(401).json("Khong co user");
-    }
+
     if (user.password !== req.body.password) {
-      return res.status(400).json("wrong password")
+      return res.status(400).json({ message: 'sai mat khau' })
     }
-
-    // const isPasswordValid = bcrypt.compareSync(
-    //   req.body.password,
-    //   user.password
-    // );
-    // if (!isPasswordValid) {
-    //   return res.status(400).json("wrong username or password")
+    // if (user.role !== 'owner') {
+    //   return res.status(401).json({ message: "khong phai tai khoang quản lí" })
     // }
-
     const access_token_owner = jwt.sign(
       {
         id: user._id,
@@ -109,11 +101,13 @@ export const loginForAccountManage = async (req, res) => {
 
 export const loginForReception = async (req, res, next) => {
   try {
-    const staff = await Staff.findOne({ username: req.body.username, codeProduct: req.body.codeProduct }).populate("package")
+    const staff = await AccountManage.findOne({ username: req.body.username, password: req.body.password }).populate("package")
     if (!staff) {
       return res.status(401).json("wrong email or password");
     }
-
+    if (staff.role !== "reception") {
+      return res.status(401).json("Chủ khác sạn sai");
+    }
     const access_token_reception = jwt.sign(
       {
         id: staff._id,
