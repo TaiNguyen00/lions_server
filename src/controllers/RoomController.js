@@ -100,7 +100,7 @@ export const editRoomStatusForSocket = async (data) => {
             condition: data.condition
         }, { new: true })
 
-        return updateRoom
+        return {updateRoom : updateRoom}
     } catch (err) {
         console.log(err)
     }
@@ -179,6 +179,8 @@ export const editRoom = async (req, res, next) => {
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 }
+
+
 
 export const deleteRoom = async (req, res, next) => {
     try {
