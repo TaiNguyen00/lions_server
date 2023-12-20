@@ -13,6 +13,15 @@ export const getAllUser = async (req, res, next) => {
   }
 }
 
+export const getIdUser = async (req, res, next) => {
+  try {
+    const id = req.body._id
+    const users = await User.findById({ _id: id })
+    return res.status(200).json(users)
+  } catch (err) {
+    console.log(err)
+  }
+}
 
 export const editUser = async (req, res, next) => {
   try {
@@ -39,10 +48,10 @@ export const deleteUser = async (req, res, next) => {
 }
 
 
-export const UpdateUserByPackageByVNP = async (userID, packageID,res) => {
+export const UpdateUserByPackageByVNP = async (userID, packageID, res) => {
   try {
-    const updatedUser =  await User.findByIdAndUpdate(userID, { id_package: packageID }, { new: true },)
-    return { user: updatedUser}
+    const updatedUser = await User.findByIdAndUpdate(userID, { id_package: packageID }, { new: true },)
+    return { user: updatedUser }
 
   } catch (err) {
     res.status(500).json(err)
@@ -53,9 +62,9 @@ export const UpdateUserByPackageByVNP = async (userID, packageID,res) => {
 // update package when buy package
 // trả về user (exp acc_token)
 export const UpdateUserByPackage = async (req, res) => {
-  const {userID, packageID} = req.body
+  const { userID, packageID } = req.body
   try {
-    const updatedUser =  await User.findByIdAndUpdate(userID, { id_package: packageID }, { new: true },)
+    const updatedUser = await User.findByIdAndUpdate(userID, { id_package: packageID }, { new: true },)
     return res.status(200).json({
       message: "updated user success",
       user: updatedUser
@@ -68,10 +77,10 @@ export const UpdateUserByPackage = async (req, res) => {
 
 
 // bỏ không sài của paypal nữa
-export async function updatePackageForUserPaypal (data) { //data = req.body
-  const {userID, packageID} = data
+export async function updatePackageForUserPaypal(data) { //data = req.body
+  const { userID, packageID } = data
 
-  const updatedUser = await User.findByIdAndUpdate(userID, {id_package: packageID}, {new: true})
+  const updatedUser = await User.findByIdAndUpdate(userID, { id_package: packageID }, { new: true })
 
   if (updatedUser) {
     return res.status(200).json({
@@ -105,6 +114,7 @@ export const createAccountManageForUser = async (req, res, next) => {
         username: username,
         package: existingUser.id_package,
         password: randomPassword,
+        role: 'owner'
       })
       await User.findByIdAndUpdate(existingUser._id, { $addToSet: { account_manage: user._id } });
       const userUpdated = await User.findById(existingUser._id).populate("id_package account_manage")
