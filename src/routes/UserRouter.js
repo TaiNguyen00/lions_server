@@ -7,7 +7,7 @@ const router = express.Router();
 
 // test API
 router.get("/getAll", VerifyUser, getAllUser);
-router.get("/getIdUser", getIdUser);
+router.post("/getIdUser", getIdUser);
 router.put('/edit-user', editUser)
 router.delete('/delete/:id', VerifyUser, deleteUser)
 router.put('/update-package', UpdateUserByPackage)
