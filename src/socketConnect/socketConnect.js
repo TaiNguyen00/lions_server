@@ -9,12 +9,11 @@ const socketConnect = (io) => {
     })
 
     socket.on("updateRoomStatusInfo", async (data) => {
-      console.log("data ", data)
       try { 
         const editedUpdateRoom =  await editRoomStatusForSocket(data)
 
         if (editedUpdateRoom) {
-          io.to(room.roomcode).emit("roomStatusUpdated", data)
+          io.to(data.currentRoom).emit("roomStatusUpdated", data)
         }
       } catch (err) {
         console.log("error from socketio", err)
