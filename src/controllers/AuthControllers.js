@@ -49,10 +49,8 @@ export const loginUser = async (req, res) => {
       process.env.JWT_TOKEN_SECRET
     );
     const { password, ...otherDetails } = user._doc;
-    res.cookie("access_token", access_token, {
-      httpOnly: true,
-    });
-    res.status(200).json({
+    res
+    .status(200).json({
       user: otherDetails,
       access_token: access_token
     })
@@ -60,6 +58,8 @@ export const loginUser = async (req, res) => {
     res.status(500).json(err);
   }
 }
+
+
 // account manager
 export const loginForAccountManage = async (req, res) => {
   try {
@@ -71,14 +71,6 @@ export const loginForAccountManage = async (req, res) => {
       return res.status(400).json("wrong password")
     }
 
-    // const isPasswordValid = bcrypt.compareSync(
-    //   req.body.password,
-    //   user.password
-    // );
-    // if (!isPasswordValid) {
-    //   return res.status(400).json("wrong username or password")
-    // }
-
     const access_token_owner = jwt.sign(
       {
         id: user._id,
@@ -88,12 +80,10 @@ export const loginForAccountManage = async (req, res) => {
     );
 
     return res
-      .cookie("access_token_owner", access_token_owner, {
-        httpOnly: true
-      })
       .status(200).json({
         message: "Login success",
-        user: user
+        user: user,
+        access_token_owner: access_token_owner
       })
 
 
@@ -121,13 +111,11 @@ export const loginForReception = async (req, res, next) => {
       },
       process.env.JWT_TOKEN_SECRET_RECEPTION
     );
-    return res.
-      cookie("access_token_reception", access_token_reception, {
-        httpOnly: true,
-      })
+    return res
       .status(200).json({
         message: "Login success",
-        staff: staff
+        staff: staff,
+        access_token_reception: access_token_reception
       })
 
   } catch (err) {

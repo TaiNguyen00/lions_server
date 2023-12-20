@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const StaffSchema = new mongoose.Schema({
-  yourProductID: {
+  yourProduct: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "YourProduct",
   },
@@ -9,7 +9,7 @@ const StaffSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  packageID:
+  package:
   {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Package'
