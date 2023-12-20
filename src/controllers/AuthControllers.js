@@ -49,18 +49,18 @@ export const loginUser = async (req, res) => {
       process.env.JWT_TOKEN_SECRET
     );
     const { password, ...otherDetails } = user._doc;
-    res.cookie("access_token", access_token, {
-      httpOnly: true,
-    });
-    res.status(200).json({
-      user: otherDetails,
-      access_token: access_token
-    })
+    res
+      .status(200).json({
+        user: otherDetails,
+        access_token: access_token
+      })
   } catch (err) {
     res.status(500).json(err);
   }
 }
-// account manager
+
+
+// account manager chủ khách sạn
 export const loginForAccountManage = async (req, res) => {
   try {
     const user = await AccountManage.findOne({ username: req.body.username, password: req.body.password }).populate("package")
@@ -68,9 +68,6 @@ export const loginForAccountManage = async (req, res) => {
     if (user.password !== req.body.password) {
       return res.status(400).json({ message: 'sai mat khau' })
     }
-    // if (user.role !== 'owner') {
-    //   return res.status(401).json({ message: "khong phai tai khoang quản lí" })
-    // }
     const access_token_owner = jwt.sign(
       {
         id: user._id,
@@ -80,12 +77,10 @@ export const loginForAccountManage = async (req, res) => {
     );
 
     return res
-      .cookie("access_token_owner", access_token_owner, {
-        httpOnly: true
-      })
       .status(200).json({
         message: "Login success",
-        user: user
+        user: user,
+        access_token_owner: access_token_owner
       })
 
 
@@ -105,23 +100,21 @@ export const loginForReception = async (req, res, next) => {
     if (!staff) {
       return res.status(401).json("wrong email or password");
     }
-    if (staff.role !== "reception") {
-      return res.status(401).json("Chủ khác sạn sai");
-    }
+    // if (staff.role !== "reception") {
+    //   return res.status(401).json("Chủ khác sạn sai");
+    // }
     const access_token_reception = jwt.sign(
       {
         id: staff._id,
-        role: staff.role_staff
+        role: staff.role
       },
       process.env.JWT_TOKEN_SECRET_RECEPTION
     );
-    return res.
-      cookie("access_token_reception", access_token_reception, {
-        httpOnly: true,
-      })
+    return res
       .status(200).json({
         message: "Login success",
-        user: staff
+        user: staff,
+        access_token_reception: access_token_reception
       })
 
   } catch (err) {

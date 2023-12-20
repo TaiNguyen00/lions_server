@@ -28,7 +28,7 @@ export const getRoomById = async (req, res, next) => {
 export const getRoomFloor = async (req, res, next) => {
     try {
         const id = req.body.floor_id
-        const roomById = await Room.find({ floor_id: id })
+        const roomById = await Room.find({ floor_id: id }).populate('catelory_room');
         if (!roomById) {
             return res.status(404).json({ message: 'Floor not found' });
         }
@@ -81,6 +81,44 @@ export const editRoomStatus = async (req, res, next) => {
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 }
+
+export const editRoomStatusForSocket = async (data) => {
+    console.log(data)
+    try {
+        const updateRoom = await Room.findByIdAndUpdate(data._id, {
+            name: data.name,
+            dateCheckin: data.dateCheckin,
+            dateCheckout: data.dateCheckout,
+            phone: data.phone,
+            sex: data.sex,
+            cccd: data.cccd,
+            nationality: data.nationality,
+            dateRange: data.dateRange,
+            dateExpiration: data.dateExpiration,
+            intendPrice: data.intendPrice,
+            intendTime: data.intendTime,
+            condition: data.condition
+        }, { new: true })
+
+        return updateRoom
+    } catch (err) {
+        console.log(err)
+    }
+    // try {
+
+    //     const idRoom = req.body._id
+
+    //     const updateRoom = await Room.findByIdAndUpdate(idRoom, { $set: req.body }, { new: true })
+    //     // xoa du liệu phòng trong tầng cũ
+
+    //     res.status(200).json(updateRoom)
+    // } catch (err) {
+    //     return res.status(500).json({ error: 'Internal Server Error' });
+    // }
+}
+
+
+
 
 export const editRoom = async (req, res, next) => {
     try {
