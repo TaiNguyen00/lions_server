@@ -49,10 +49,8 @@ export const loginUser = async (req, res) => {
       process.env.JWT_TOKEN_SECRET
     );
     const { password, ...otherDetails } = user._doc;
-    res.cookie("access_token", access_token, {
-      httpOnly: true,
-    });
-    res.status(200).json({
+    res
+    .status(200).json({
       user: otherDetails,
       access_token: access_token
     })
@@ -60,24 +58,16 @@ export const loginUser = async (req, res) => {
     res.status(500).json(err);
   }
 }
-// account manager
+
+
+// account manager chủ khách sạn
 export const loginForAccountManage = async (req, res) => {
   try {
     const user = await AccountManage.findOne({ username: req.body.username, password: req.body.password }).populate("package")
-    if (!user) {
-      return res.status(401).json("Khong co user");
-    }
-    if (user.password !== req.body.password) {
-      return res.status(400).json("wrong password")
-    }
 
-    // const isPasswordValid = bcrypt.compareSync(
-    //   req.body.password,
-    //   user.password
-    // );
-    // if (!isPasswordValid) {
-    //   return res.status(400).json("wrong username or password")
-    // }
+    if (user.password !== req.body.password) {
+      return res.status(400).json({ message: 'sai mat khau' })
+    }
 
     const access_token_owner = jwt.sign(
       {
@@ -88,12 +78,10 @@ export const loginForAccountManage = async (req, res) => {
     );
 
     return res
-      .cookie("access_token_owner", access_token_owner, {
-        httpOnly: true
-      })
       .status(200).json({
         message: "Login success",
-        user: user
+        user: user,
+        access_token_owner: access_token_owner
       })
 
 
@@ -109,25 +97,25 @@ export const loginForAccountManage = async (req, res) => {
 
 export const loginForReception = async (req, res, next) => {
   try {
-    const staff = await Staff.findOne({ username: req.body.username, codeProduct: req.body.codeProduct }).populate("packageID")
+    const staff = await AccountManage.findOne({ username: req.body.username, password: req.body.password }).populate("package")
     if (!staff) {
       return res.status(401).json("wrong email or password");
     }
-
+    // if (staff.role !== "reception") {
+    //   return res.status(401).json("Chủ khác sạn sai");
+    // }
     const access_token_reception = jwt.sign(
       {
         id: staff._id,
-        role: staff.role_staff
+        role: staff.role
       },
       process.env.JWT_TOKEN_SECRET_RECEPTION
     );
-    return res.
-      cookie("access_token_reception", access_token_reception, {
-        httpOnly: true,
-      })
+    return res
       .status(200).json({
         message: "Login success",
-        staff: staff
+        user: staff,
+        access_token_reception: access_token_reception
       })
 
   } catch (err) {

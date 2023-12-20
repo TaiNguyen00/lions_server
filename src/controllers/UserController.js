@@ -38,22 +38,54 @@ export const deleteUser = async (req, res, next) => {
   }
 }
 
-export const UpdateUserByPackage = async (req, res) => {
 
-  const { packageID, idUser } = req.body
-  console.log(idUser);
-  const _id = idUser
+export const UpdateUserByPackageByVNP = async (userID, packageID, res) => {
   try {
-    await User.findByIdAndUpdate(_id, { id_package: packageID }, { new: true },)
-    const getUser = await User.findById(_id).populate("id_package")
-    res.status(200).json({
-      message: "update success",
-      user: getUser
+    const updatedUser = await User.findByIdAndUpdate(userID, { id_package: packageID }, { new: true },)
+    return { user: updatedUser }
+
+  } catch (err) {
+    res.status(500).json(err)
+  }
+}
+
+
+// update package when buy package
+// trả về user (exp acc_token)
+export const UpdateUserByPackage = async (req, res) => {
+  const { userID, packageID } = req.body
+  try {
+    const updatedUser = await User.findByIdAndUpdate(userID, { id_package: packageID }, { new: true },)
+    return res.status(200).json({
+      message: "updated user success",
+      user: updatedUser
     })
   } catch (err) {
     res.status(500).json(err)
   }
 }
+
+
+
+// bỏ không sài của paypal nữa
+export async function updatePackageForUserPaypal(data) { //data = req.body
+  const { userID, packageID } = data
+
+  const updatedUser = await User.findByIdAndUpdate(userID, { id_package: packageID }, { new: true })
+
+  if (updatedUser) {
+    return res.status(200).json({
+      message: "cập nhật gói của người dùng thành công",
+      updatedUser: updatedUser
+    })
+  } else {
+    return res.status(200).json({
+      message: "cập nhật gói người dùng thất bại"
+    })
+  }
+}
+
+
 // for manager account
 export const createAccountManageForUser = async (req, res, next) => {
   const { username, yourProductID } = req.body
@@ -73,12 +105,13 @@ export const createAccountManageForUser = async (req, res, next) => {
         username: username,
         package: existingUser.id_package,
         password: randomPassword,
+        role: 'owner'
       })
       await User.findByIdAndUpdate(existingUser._id, { $addToSet: { account_manage: user._id } });
-      const getID = await User.findById(existingUser._id).populate("id_package account_manage")
+      const userUpdated = await User.findById(existingUser._id).populate("id_package account_manage")
       return res.status(200).json({
         message: "A new account for manager created",
-        user: getID
+        user: userUpdated
       })
     } else {
       return res.status(205).json("User not found")
