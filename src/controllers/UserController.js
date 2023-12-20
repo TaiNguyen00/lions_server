@@ -13,6 +13,15 @@ export const getAllUser = async (req, res, next) => {
   }
 }
 
+export const getIdUser = async (req, res, next) => {
+  try {
+    const id = req.body._id
+    const users = await User.findById({ _id: id })
+    return res.status(200).json(users)
+  } catch (err) {
+    console.log(err)
+  }
+}
 
 export const editUser = async (req, res, next) => {
   try {

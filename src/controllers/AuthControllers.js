@@ -50,10 +50,10 @@ export const loginUser = async (req, res) => {
     );
     const { password, ...otherDetails } = user._doc;
     res
-    .status(200).json({
-      user: otherDetails,
-      access_token: access_token
-    })
+      .status(200).json({
+        user: otherDetails,
+        access_token: access_token
+      })
   } catch (err) {
     res.status(500).json(err);
   }
@@ -68,7 +68,6 @@ export const loginForAccountManage = async (req, res) => {
     if (user.password !== req.body.password) {
       return res.status(400).json({ message: 'sai mat khau' })
     }
-
     const access_token_owner = jwt.sign(
       {
         id: user._id,
