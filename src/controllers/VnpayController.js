@@ -149,18 +149,18 @@ export const VNPayIPN = async (req, res, next) => {
 
             const userID = vnp_Params["vnp_OrderInfo"];
             if (userID && packageID) {
-              const {user} = await UpdateUserByPackageByVNP(userID, packageID)
-              console.log("updated user", user)
+
+              const { user } = await UpdateUserByPackageByVNP(userID, packageID)
               if (user) {
                 await createBillBuyPackage(userID, packageID)
               }
-              res.redirect("http://127.0.0.1:3000/payment-success");
+              res.redirect("http://localhost:3000/payment-success")
             }
           } else {
             //that bai
             //paymentStatus = '2'
             // const checkStep = handleIPN(vnp_Params)
-            res.redirect("http://127.0.0.1:3000/payment-failure");
+            res.redirect("http://localhost:3000/payment-failure");
           }
         } else {
           res.status(200).json({

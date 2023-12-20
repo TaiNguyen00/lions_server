@@ -12,36 +12,36 @@ export const getAllStaff = async (req, res, next) => {
         console.log(err)
     }
 }
-export const addStaff = async (req, res, next) => {
-    try {
-        console.log("req",req)
-        const id = req.body.yourProduct
-        // const staffs = await Staff.find({ yourProductID: id })
-        const staffCount = await Staff.countDocuments({ yourProduct: id });
-        const packages = await Package.findById(req.body.package);
-        if (staffCount >= packages.quantity_staff) {
-            return res.status(400).json({ massage: "Bạn không thể tạo thêm nhân viên" });
-        }
-        const newStaff = new Staff(req.body)
-        const saveStaff = await newStaff.save()
-        const updateYourProduct = await YourProduct.findByIdAndUpdate(req.body.yourProduct, {
-            $push: {
-                id_staff: newStaff._id
-            }
-        })
-        if (!updateYourProduct) {
-            return res.status(404).json({ massage: "update statff is not success" })
-        }
-        return res.status(200).json({
-            saveStaff: saveStaff,
-        })
-    } catch (err) {
-        return res.status(500).json({
-            message: "error",
-            err: err
-        })
-    }
-}
+// bỏ
+// export const addStaff = async (req, res, next) => {
+//     try {
+//         const id = req.body.yourProduct
+//         // const staffs = await Staff.find({ yourProductID: id })
+//         const staffCount = await Staff.countDocuments({ yourProduct: id });
+//         const packages = await Package.findById(req.body.package);
+//         if (staffCount >= packages.quantity_staff) {
+//             return res.status(400).json({ massage: "Bạn không thể tạo thêm nhân viên" });
+//         }
+//         const newStaff = new Staff(req.body)
+//         const saveStaff = await newStaff.save()
+//         const updateYourProduct = await YourProduct.findByIdAndUpdate(req.body.yourProduct, {
+//             $push: {
+//                 id_staff: newStaff._id
+//             }
+//         })
+//         if (!updateYourProduct) {
+//             return res.status(404).json({ massage: "update statff is not success" })
+//         }
+//         return res.status(200).json({
+//             saveStaff: saveStaff,
+//         })
+//     } catch (err) {
+//         return res.status(500).json({
+//             message: "error",
+//             err: err
+//         })
+//     }
+// }
 
 
 export const editStaff = async (req, res, next) => {

@@ -6,7 +6,7 @@ const router = express.Router();
 
 
 // test API
-router.get("/", VerifyUser,getAllUser);
+router.get("/getAll", VerifyAdmin, getAllUser);
 router.put('/edit-user', editUser)
 router.delete('/delete/:id', VerifyUser, deleteUser)
 router.put('/update-package', UpdateUserByPackage)

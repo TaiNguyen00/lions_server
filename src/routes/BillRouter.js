@@ -3,7 +3,7 @@ import { createBillBuyPackage, getAllBill } from "../controllers/BillControllers
 
 const router = express.Router()
 
-router.get("/", getAllBill)
+router.get("/getAll", getAllBill)
 
 
 

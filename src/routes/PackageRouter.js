@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { addPackage, editPackage, getAllPackage, getPackageById } from "../controllers/PackageController";
+import { VerifyUser, VerifyAdmin } from "../middlewares/VerifyToken";
 
 const packageRouter = Router()
 
