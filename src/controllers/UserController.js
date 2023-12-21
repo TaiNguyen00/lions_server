@@ -4,6 +4,7 @@ import AccountManage from "../models/accountManagement"
 
 
 
+
 export const getAllUser = async (req, res, next) => {
   try {
     const users = await User.find()
@@ -41,13 +42,30 @@ export const deleteUser = async (req, res, next) => {
 
 export const UpdateUserByPackageByVNP = async (userID, packageID, res) => {
   try {
-    const updatedUser = await User.findByIdAndUpdate(userID, { id_package: packageID }, { new: true },)
+    const updatedUser = await User.findByIdAndUpdate(userID, { id_package: packageID }, { new: true })
+
     return { user: updatedUser }
 
   } catch (err) {
     res.status(500).json(err)
   }
 }
+
+export const updateAccountManageVNPay = async (yourProductID, packageID) => {
+  try {
+    // Sử dụng mongoose để cập nhật các bản ghi có yourProductID
+    const result = await AccountManage.updateMany(
+      { yourProduct: yourProductID },
+      { $set: { package: packageID } }
+    );
+
+    console.log(`Updated ${result.nModified} records`);
+  } catch (err) {
+    console.error(err);
+    throw new Error(err);
+  }
+}
+
 
 
 // update package when buy package
@@ -95,8 +113,6 @@ export const createAccountManageForUser = async (req, res, next) => {
     if (existingUser) {
       // có thể tạo mới mk cách ngẫu nhiêu nếu muốn, truyền vào lenght của mk muốn có
       const randomPassword = generateRandomPassword(6)
-
-      console.log(randomPassword)
       // package
 
       const user = await AccountManage.create({
@@ -107,7 +123,11 @@ export const createAccountManageForUser = async (req, res, next) => {
         password: randomPassword,
         role: 'owner'
       })
-      await User.findByIdAndUpdate(existingUser._id, { $addToSet: { account_manage: user._id } });
+
+      console.log("check user", user) // đã lấy được your product
+      await User.findByIdAndUpdate(existingUser._id, { $addToSet: { account_manage: user._id, product: user.yourProduct } });
+
+
       const userUpdated = await User.findById(existingUser._id).populate("id_package account_manage")
       return res.status(200).json({
         message: "A new account for manager created",
