@@ -33,15 +33,6 @@ const UserSchema = new mongoose.Schema({
     type: Number,
 
   },
-
-  role: {
-    type: Number,
-    default: 0
-  },
-  bill: {
-    type: String,
-    default: false
-  },
   isAdmin: {
     type: Boolean,
     default: false,
