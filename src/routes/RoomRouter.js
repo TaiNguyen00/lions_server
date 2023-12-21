@@ -1,11 +1,15 @@
 import { Router } from "express";
-import { addRoom, deleteRoom, editRoom, getAllRoom } from "../controllers/RoomController";
-const routerRoom = Router()
+import { addRoom, deleteRoom, editRoom, editRoomStatus, getAllRoom, getRoomById, getRoomByIdFloor, getRoomFloor } from "../controllers/RoomController";
+const roomRouter = Router()
 
-routerRoom.get('/room', getAllRoom)
-routerRoom.post('/add-room', addRoom)
-routerRoom.put('/edit-room/:id', editRoom)
-routerRoom.delete('/delete-room/:id', deleteRoom)
+roomRouter.get('/getAll', getAllRoom)
+roomRouter.post('/add-room', addRoom)
+roomRouter.post('/getID', getRoomById)
+roomRouter.post('/getFloor', getRoomByIdFloor)
+roomRouter.post('/getIDRoomFloor', getRoomFloor)
+roomRouter.put('/edit-room', editRoom)
+roomRouter.put('/edit-room-status', editRoomStatus)
+roomRouter.delete('/delete-room', deleteRoom)
 // router.get('/', deleteRoom)
 
-module.exports = routerRoom
+module.exports = roomRouter

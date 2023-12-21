@@ -5,22 +5,29 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "SET NODE_ENV=production&& nodemon --exec babel-node index.js",
-    "dev": "SET NODE_ENV=development&& nodemon --exec babel-node index.js"
+    "start": "cross-env NODE_ENV=production nodemon --exec babel-node index.js",
+    "dev": "cross-env NODE_ENV=development nodemon --exec babel-node index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.6.2",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "crypto-js": "^4.1.1",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "http-proxy-middleware": "^2.0.6",
     "jsonwebtoken": "^9.0.2",
+    "moment": "2.29.4",
     "mongoose": "^7.5.0",
     "morgan": "^1.10.0",
+    "node-fetch": "^2.6.6",
+    "qs": "^6.7.0",
+    "socket.io": "^4.4.1",
     "stripe": "^13.4.0"
   },
   "devDependencies": {

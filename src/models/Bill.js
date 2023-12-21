@@ -9,14 +9,11 @@ const BillSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    creact_at: {
-        type: Date,
-        default: Date.now
-    },
-    update_at: {
-        type: Date,
-        default: Date.now
-    },
+    isActive: {
+        type: Boolean,
+        default: false
+    }
+
 }, { timestamps: true })
 
 module.exports = mongoose.model("Bill", BillSchema)

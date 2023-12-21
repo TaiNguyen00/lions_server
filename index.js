@@ -1,5 +1,5 @@
-import express from "express"
-import 'dotenv/config'
+import express from "express";
+import "dotenv/config";
 
 import cors from "cors";
 import morgan from "morgan";
@@ -7,31 +7,53 @@ import cookieParser from "cookie-parser";
 
 import connectToDB from "./src/config/connectDB";
 
+import router from "./src/routes/configRouter";
 
-// api
-import userRouter from "./src/routes/UserRouter"
-import authRouter from "./src/routes/AuthRouter"
+// for socket io
 
+import http from "http";
+import { Server } from "socket.io";
 
+import socketConnect from "./src/socketConnect/socketConnect";
 
-const app = express()
-const PORT = process.env.PORT || 8081
+const app = express();
 
+let PORT =
+  process.env.NODE_ENV === "production"
+    ? process.env.PORT_MAIN
+    : process.env.PORT_DEV;
 
-
+const server = http.createServer(app);
 // middlewares API
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "http://127.0.0.1:5173",
+      "http://localhost:5174",
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "http://127.0.0.1:3000",
+    ],
+    credentials: true,
+  })
+);
 
-app.use(cors())
-app.use(express.json())
-app.use(cookieParser())
-app.use(morgan())
+const io = new Server(server, {
+  cors: { origin: ["http://localhost:3001"], methods: ["GET", "POST", "PUT"] },
+});
 
-app.use("/api/v1/user", userRouter)
-app.use("/api/v1/auth", authRouter)
+socketConnect(io)
+
+app.use(cookieParser());
+app.use(morgan());
+app.use(express.json());
+
+app.use("/api/v1", router);
 
 
-app.listen(PORT, () => {
-  connectToDB()
-  console.log(`At the port: http://localhost:${PORT}`)
-})
 
+server.listen(PORT, () => {
+  connectToDB();
+  console.log(`At the port: http://localhost:${PORT}`);
+});

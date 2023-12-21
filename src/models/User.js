@@ -14,8 +14,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true, // bắt buộc
   },
-  middle_name: {
+  username: {
     type: String,
+    required: true,
+    unique: true 
   },
   email: {
     type: String,
@@ -26,16 +28,12 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  avatar: {
-    type: String,
-  },
+
   phone_number: {
     type: Number,
 
   },
-  token_o2h: {
-    type: String,
-  },
+
   role: {
     type: Number,
     default: 0
@@ -48,6 +46,14 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  account_manage: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'accountManagement'
+  },
+  product: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'YourProduct'
+  }
 }, { timestamps: true })
 
 module.exports = mongoose.model("User", UserSchema)

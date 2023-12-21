@@ -1,26 +1,38 @@
 import mongoose from "mongoose"
 
 const YourProductSchema = new mongoose.Schema({
-    id_user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+    id_floor: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'floor'
+        }
+    ],
 
-    },
-    id_room: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Room'
-    },
     name_product: {
         type: String,
         required: true, // bắt buộc
     },
-    id_type_product: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'TypeProduct'
-    },
-    type_product: {
+    phone_product:
+    {
         type: String,
         required: true, // bắt buộc
+    },
+    adress_product:
+    {
+        type: String,
+        required: true, // bắt buộc
+    },
+    package: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Package'
+    },
+    codeProduct: {
+        type: String,
+        required: true,
+    },
+    accountManagementID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'accountManagement'
     }
 }, { timestamps: true })
 
