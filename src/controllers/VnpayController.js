@@ -2,7 +2,6 @@ import moment from "moment";
 let packageID;
 let productID;
 
-import axios from "axios";
 
 import { UpdateUserByPackageByVNP } from "./UserController";
 import { createBillBuyPackage } from "./BillControllers";
@@ -85,38 +84,11 @@ export const createPaymentVNPay = (req, res) => {
     res.status(500).json(err);
   }
 };
-// tạm thời bỏ qua hàm này
-// export const vnpReturn = (req, res, next) => {
-//   let vnp_Params = req.query;
-
-//   let secureHash = vnp_Params["vnp_SecureHash"];
-
-//   delete vnp_Params["vnp_SecureHash"];
-//   delete vnp_Params["vnp_SecureHashType"];
-
-//   vnp_Params = sortObject(vnp_Params);
-
-//   let tmnCode = process.env.vnp_TmnCode;
-//   let secretKey = process.env.vnp_HashSecret;
-
-//   let querystring = require("qs");
-//   let signData = querystring.stringify(vnp_Params, { encode: false });
-//   let crypto = require("crypto");
-//   let hmac = crypto.createHmac("sha512", secretKey);
-//   let signed = hmac.update(new Buffer(signData, "utf-8")).digest("hex");
-
-//   if (secureHash === signed) {
-//     //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
-//     res.render("success", { code: vnp_Params["vnp_ResponseCode"] });
-//   } else {
-//     res.render("success", { code: "97" });
-//   }
-// };
 
 
 // đây là bước cuối cùng
 export const VNPayIPN = async (req, res, next) => {
-  // lấy req.quere từ đâu
+  // lấy req.quere từ parameter
   let vnp_Params = req.query;
   let secureHash = vnp_Params["vnp_SecureHash"];
 
@@ -202,10 +174,31 @@ function sortObject(obj) {
   return sorted;
 }
 
-async function handleIPN(params, res) {
-  // Ví dụ: Cập nhật trạng thái đơn hàng trong cơ sở dữ liệu
-  const userID = params["vnp_OrderInfo"];
-  if (userID) {
-    await UpdateUserByPackage(userID, packageID, res);
-  }
-}
+
+// tạm thời bỏ qua hàm này
+// export const vnpReturn = (req, res, next) => {
+//   let vnp_Params = req.query;
+
+//   let secureHash = vnp_Params["vnp_SecureHash"];
+
+//   delete vnp_Params["vnp_SecureHash"];
+//   delete vnp_Params["vnp_SecureHashType"];
+
+//   vnp_Params = sortObject(vnp_Params);
+
+//   let tmnCode = process.env.vnp_TmnCode;
+//   let secretKey = process.env.vnp_HashSecret;
+
+//   let querystring = require("qs");
+//   let signData = querystring.stringify(vnp_Params, { encode: false });
+//   let crypto = require("crypto");
+//   let hmac = crypto.createHmac("sha512", secretKey);
+//   let signed = hmac.update(new Buffer(signData, "utf-8")).digest("hex");
+
+//   if (secureHash === signed) {
+//     //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
+//     res.render("success", { code: vnp_Params["vnp_ResponseCode"] });
+//   } else {
+//     res.render("success", { code: "97" });
+//   }
+// };
