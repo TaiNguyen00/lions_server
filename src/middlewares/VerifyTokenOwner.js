@@ -12,6 +12,17 @@ export const VerifyToken = (req, res, next) => {
 };
 
 
+export const verifyReception = (req, res, next) => {
+  VerifyToken(req, res, (err) => {
+    if (err) return res.status(400).json("Something went wrong from owner")
+    if (req.user.role === "reception") {
+      next()
+    }else {
+      return res.status(400).json("Bạn k có quyền truy cập vào chức năng này (case for RECEPTION)");
+    }
+  })
+}
+
 export const verifyOwner = (req, res, next) => {
   VerifyToken(req, res, (err) => {
     if (err) return res.status(400).json("Something went wrong from owner")
@@ -22,3 +33,4 @@ export const verifyOwner = (req, res, next) => {
     }
   })
 }
+
