@@ -49,6 +49,10 @@ const UserSchema = new mongoose.Schema({
   account_manage: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'accountManagement'
+  },
+  product: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'YourProduct'
   }
 }, { timestamps: true })
 

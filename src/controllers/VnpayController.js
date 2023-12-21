@@ -1,10 +1,12 @@
 import moment from "moment";
 let packageID;
+let productID;
 
 import axios from "axios";
 
 import { UpdateUserByPackageByVNP } from "./UserController";
 import { createBillBuyPackage } from "./BillControllers";
+import { updateAccountManageVNPay } from "./UserController";
 
 export const createPaymentVNPay = (req, res) => {
   try {
@@ -38,6 +40,9 @@ export const createPaymentVNPay = (req, res) => {
     const userID = req.body.idUser;
 
     packageID = req.body.packageID;
+
+    // lấy id product để cập nhật
+    productID = req.body.productID
 
     // language, vn or en
     let locale = req.body.language;
@@ -149,10 +154,12 @@ export const VNPayIPN = async (req, res, next) => {
 
             const userID = vnp_Params["vnp_OrderInfo"];
             if (userID && packageID) {
-
+              console.log("check product", productID)
               const { user } = await UpdateUserByPackageByVNP(userID, packageID)
               if (user) {
+                await updateAccountManageVNPay(productID, packageID)
                 await createBillBuyPackage(userID, packageID)
+                
               }
               res.redirect("http://localhost:3000/payment-success")
             }

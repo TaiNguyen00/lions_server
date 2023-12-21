@@ -13,7 +13,7 @@ const socketConnect = (io) => {
         const editedUpdateRoom =  await editRoomStatusForSocket(data)
 
         if (editedUpdateRoom) {
-          io.to(data.currentRoom).emit("roomStatusUpdated", data)
+          io.to(data._id).emit("roomStatusUpdated", data)
         }
       } catch (err) {
         console.log("error from socketio", err)
