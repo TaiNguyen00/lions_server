@@ -161,7 +161,9 @@ export const VNPayIPN = async (req, res, next) => {
                 await createBillBuyPackage(userID, packageID)
                 
               }
-              res.redirect("http://localhost:3000/payment-success")
+              res.status(200).json({
+                user: user
+              })
             }
           } else {
             //that bai
