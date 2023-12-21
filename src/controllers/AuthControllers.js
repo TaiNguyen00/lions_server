@@ -64,7 +64,11 @@ export const loginUser = async (req, res) => {
 export const loginForAccountManage = async (req, res) => {
   try {
     const user = await AccountManage.findOne({ username: req.body.username, password: req.body.password }).populate("package")
-
+    if (user.role !== 'owner') {
+      return res.status(401).json({
+        message: "Lổi không đúng role"
+      })
+    }
     if (user.password !== req.body.password) {
       return res.status(400).json({ message: 'sai mat khau' })
     }
@@ -100,9 +104,9 @@ export const loginForReception = async (req, res, next) => {
     if (!staff) {
       return res.status(401).json("wrong email or password");
     }
-    // if (staff.role !== "reception") {
-    //   return res.status(401).json("Chủ khác sạn sai");
-    // }
+    if (staff.role !== "reception") {
+      return res.status(401).json({ message: "Tài khoản không hợp lệ" });
+    }
     const access_token_reception = jwt.sign(
       {
         id: staff._id,

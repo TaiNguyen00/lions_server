@@ -2,11 +2,21 @@ import Bill from "../models/Bill"
 
 export const getAllBill = async (req, res) => {
   try {
-    const bills = await Bill.find().populate("userID, packageID");
-    return res.status(200).json({
-      message: "get all bills success",
-      bills: bills
-    })
+    const bills = await Bill.find().populate({
+      path: "id_package",
+      path: "id_user",
+      populate: [
+        {
+          path: 'account_manage', populate: [
+            { path: 'yourProduct' },
+            { path: 'package' },
+
+          ],
+        },
+
+      ],
+    });
+    return res.status(200).json(bills)
   } catch (err) {
     return res.status(500).json(err)
   }
