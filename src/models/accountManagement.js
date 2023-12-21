@@ -17,7 +17,7 @@ const accountManagementSchema = new mongoose.Schema({
   },
   username: {
     type: String,
-    require: true,
+    required: true,
     unique: true,
   },
   name: {
@@ -33,8 +33,8 @@ const accountManagementSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    require: true,
-  },
+    required: true,
+  }
 },
   { timestamps: true }
 );
