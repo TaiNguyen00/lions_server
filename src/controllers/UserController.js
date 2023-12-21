@@ -14,6 +14,15 @@ export const getAllUser = async (req, res, next) => {
   }
 }
 
+export const getIdUser = async (req, res, next) => {
+  try {
+    const id = req.body._id
+    const users = await User.findById({ _id: id })
+    return res.status(200).json(users)
+  } catch (err) {
+    console.log(err)
+  }
+}
 
 export const editUser = async (req, res, next) => {
   try {
@@ -73,10 +82,11 @@ export const updateAccountManageVNPay = async (yourProductID, packageID) => {
 export const UpdateUserByPackage = async (req, res) => {
   const { userID, packageID } = req.body
   try {
-    const updatedUser = await User.findByIdAndUpdate(userID, { id_package: packageID }, { new: true },)
+    const UserUpdate = await User.findByIdAndUpdate(userID, { id_package: packageID }, { new: true },)
+    const user = await User.findById({ _id: UserUpdate._id }).populate("id_package account_manage")
     return res.status(200).json({
       message: "updated user success",
-      user: updatedUser
+      user: user
     })
   } catch (err) {
     res.status(500).json(err)

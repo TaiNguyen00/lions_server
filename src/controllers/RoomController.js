@@ -23,12 +23,25 @@ export const getRoomById = async (req, res, next) => {
         return res.status(404).json(err);
     }
 };
+export const getRoomByIdFloor = async (req, res, next) => {
+    try {
+        const id = req.body.id_yourProduct
+        const floor = req.body.floor_id
+        const roomById = await Room.find({ id_yourProduct: id, floor_id: floor })
+        if (!roomById) {
+            return res.status(404).json({ message: 'Floor not found' });
+        }
+        return res.status(200).json(roomById);
+    } catch (err) {
+        return res.status(404).json(err);
+    }
+};
 
 
 export const getRoomFloor = async (req, res, next) => {
     try {
         const id = req.body.floor_id
-        const roomById = await Room.find({ floor_id: id })
+        const roomById = await Room.find({ floor_id: id }).populate('catelory_room');
         if (!roomById) {
             return res.status(404).json({ message: 'Floor not found' });
         }
@@ -98,7 +111,7 @@ export const editRoomStatusForSocket = async (data) => {
             intendPrice: data.intendPrice,
             intendTime: data.intendTime,
             condition: data.condition
-        }, {new: true})
+        }, { new: true })
 
         return {updateRoom : updateRoom}
     } catch (err) {

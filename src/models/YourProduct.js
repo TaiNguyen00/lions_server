@@ -7,12 +7,7 @@ const YourProductSchema = new mongoose.Schema({
             ref: 'floor'
         }
     ],
-    id_staff: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'StaffYourProduct'
-        }
-    ],
+
     name_product: {
         type: String,
         required: true, // bắt buộc
